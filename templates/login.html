@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="sv">
+  <head>
+    <meta charset="utf-8">
+    <title> Logga in </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login.css') }}">
+  </head>
+  <body>
+
+    <div id="flex">
+
+      <h2> LOGIN </h2>
+
+      <form action="/home" method="POST">
+
+        <input type="text" name="username" placeholder="USERNAME" required>
+        <input type="password" name="password" placeholder="PASSWORD" required>
+        <input type="submit" value="LOGIN" name="login">
+
+        <p> Don't have an account? <a href="register"> Register here </a> </p>
+
+      </form>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <p class="{{ category }}"> {{ message }} </p>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+    </div>
+
+  </body>
+</html>

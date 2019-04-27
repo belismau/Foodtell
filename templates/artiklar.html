@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="sv">
+  <head>
+    <meta charset="utf-8">
+    <title> Erbjudanden </title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='artiklar.css') }}">
+    <script src="https://use.fontawesome.com/8216db457b.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
+  </head>
+  <body>
+
+    {% if checkIfEmpty == 0 %}
+
+      <div id="noArticles">
+        <h3> INGA ERBJUDANDEN TILLGÄNGLIGA JUST NU </h3>
+      </div>
+
+    {% endif %}
+
+    {% for rad in listArticle %}
+      <article id="container">
+
+        <div id="over">
+          <p> Artikel {{ rad[0] }} </p>
+        </div>
+
+        <div id="main">
+          <h3> {{ rad[1] }} </h3>
+          <p id="subtitle"> Underrubrik </p>
+          <p id="beskrivning"> {{ rad[2] }} </p>
+
+          <div id="under">
+            <i class="fa fa-clock-o" aria-hidden="true"></i>
+            <p class="appear"></p>
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            <p class="date"> {{ rad[3] }} </p>
+            <p class="time"> &nbsp;&nbsp;{{ rad[4] }} </p>
+          </div>
+        </div>
+
+      </article>
+    {% endfor %}
+
+    <script type="text/javascript" src="{{ url_for('static', filename='artiklar.js') }}"></script>
+  </body>
+</html>

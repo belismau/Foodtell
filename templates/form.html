@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="sv">
+  <head>
+    <meta charset="utf-8">
+    <title> Skapa en artkel </title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='form.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+
+    <div id="flex">
+
+      <h2> SKAPA EN ARTIKEL </h2>
+
+      {% if string != True %}
+        <form action="/addarticle" method="POST">
+          <input type="text" name="namn" placeholder="NAMN">
+          <textarea name="beskrivning" placeholder="BESKRIVNING" minlength=10 required></textarea>
+          <input id="today1" name="time" type="time" required>
+          <input id="today" type="date" name="date" max="2019-12-31" required>
+          <input type="submit" value="SKICKA">
+        </form>
+      {% else %}
+        <form>
+          <p> Artikeln har nu skapats </p>
+          <p> Du kan se den <a href="artiklar"> här </a> </p>
+        </form>
+      {% endif %}
+
+    </div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
+
+  </body>
+</html>

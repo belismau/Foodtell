@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css?family=Sanchez');
+
+#noArticles {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#noArticles > h3 {
+  padding: 0;
+  margin: 0 20px 0 20px;
+}
+
+body {
+  background: #f2f2f2;
+  font-family: 'Sanchez', serif;
+  margin: 0;
+}
+
+h3, p {
+  margin: 0;
+}
+
+h3 {
+  padding: 0 0 10px;
+  color: #333333;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+#beskrivning {
+  color: #666666;
+  font-size: 14px;
+  line-height: 1.8em;
+  margin: 0 50px 0 0;
+}
+
+#subtitle {
+  padding: 0 0 20px;
+  color: #e74c3c;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+#container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#container > #main {
+  height: auto;
+  max-width: 400px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  margin: 0 20px 20px 20px;
+  padding: 30px;
+}
+
+#over {
+  color: white;
+  margin: 20px 20px 0px 20px;
+  padding: 10px 30px 10px 30px;
+  max-width: 400px;
+  display: flex;
+  align-items: center;
+  background: #e74c3c;
+  height: 25px;
+}
+
+#under {
+  color: #999999;
+  padding: 20px 0 0;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  height: 25px;
+}
+
+.appear {
+  padding: 0 13px 0 0;
+}
+
+.fa {
+  padding: 0 5px 0 0;
+}
+
+@media screen and (max-width: 515px) {
+  #beskrivning {
+    margin: 0;
+  }
+}

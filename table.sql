@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS artikel;
+
+CREATE TABLE artikel (
+    id INTEGER PRIMARY KEY,
+    namn VARCHAR NOT NULL,
+    beskrivning VARCHAR NOT NULL,
+    datum VARCHAR NOT NULL,
+    tid VARCHAR NOT NULL
+);
