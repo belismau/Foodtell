@@ -46,7 +46,7 @@ a {
   border-bottom: 1px solid lightgreen;
 }
 
-input[type=text], input[type=password] {
+input[type=text], input[type=password], input[type=email] {
   font-family: 'Kanit', sans-serif;
   font-size: 12px;
   color: white;
@@ -85,7 +85,7 @@ form {
   margin: 0 10px 0 10px;
 }
 
-input[type=text]:focus, input[type=password]:focus {
+input[type=text]:focus, input[type=email]:focus, input[type=password]:focus {
   padding-bottom: 23px;
   border-bottom: 2px solid white;
   color: white;

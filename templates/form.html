@@ -18,6 +18,7 @@
           <textarea name="beskrivning" placeholder="BESKRIVNING" minlength=10 required></textarea>
           <input id="today1" name="time" type="time" required>
           <input id="today" type="date" name="date" max="2019-12-31" required>
+          <input type="number" name="antal" min="1" placeholder="ANTAL" required>
           <input type="submit" value="SKICKA">
         </form>
       {% else %}
@@ -29,7 +30,7 @@
 
     </div>
 
-    <script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='form.js') }}"></script>
 
   </body>
 </html>

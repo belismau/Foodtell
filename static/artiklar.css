@@ -66,6 +66,7 @@ h3 {
   align-items: center;
   background: #e74c3c;
   height: 25px;
+  justify-content: space-between;
 }
 
 #under {
@@ -75,6 +76,36 @@ h3 {
   display: flex;
   align-items: center;
   height: 25px;
+}
+
+input[type=number] {
+  font-size: 12px;
+  color: white;
+  outline: none;
+  border: none;
+  background: #e74c3c;
+  padding: 9px;
+  width: 47px;
+  box-shadow: 0 5px 5px rgba(0,0,0,0.10), 0 5px 5px rgba(0,0,0,0.22);
+  margin: 20px 0 0 0;
+  resize: none;
+}
+
+input[type=submit] {
+  font-family: 'Sanchez', serif;
+  margin: 0;
+  background: #e74c3c;
+  border: none;
+  box-sizing: border-box;
+  box-shadow: 0 5px 5px rgba(0,0,0,0.10), 0 5px 5px rgba(0,0,0,0.22);
+  padding: 10px;
+  cursor: pointer;
+  outline: none;
+  color: white;
+}
+
+#articleID {
+  display: none;
 }
 
 .appear {

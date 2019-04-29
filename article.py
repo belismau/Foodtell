@@ -4,7 +4,29 @@ from flask import request
 import psycopg2
 import datetime
 
-def removeArticle():
+def removeArticleAntal():
+
+    antal = request.form['antal']
+    articleID = request.form['id']
+
+    db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
+    connect = db.cursor()
+
+    connect.execute("SELECT id, antal FROM artikel WHERE id = %s", (articleID,))
+
+    resultat = connect.fetchall()
+
+    for i in resultat:
+
+        if i[1] == int(antal):
+            connect.execute("DELETE FROM artikel WHERE id = %s", (articleID,))
+            db.commit()
+        else:
+            newAntal = i[1] - int(antal)
+            connect.execute("UPDATE artikel SET antal = %s WHERE id = %s", (newAntal, articleID))
+            db.commit()
+
+def removeArticleTime():
     
     # Kopplar upp mig till databasen
 
@@ -96,7 +118,7 @@ def presentArticle():
     listArticle = []
     connect.execute("SELECT * FROM artikel")
     for i in connect:
-        listArticle.append([i[0], i[1], i[2], i[3], i[4]])
+        listArticle.append([i[0], i[1], i[2], i[3], i[4], i[5]])
     db.commit()
 
     return listArticle
@@ -107,6 +129,7 @@ def addArticle():
     beskrivning = request.form['beskrivning']
     tid = request.form['time']
     datum = request.form['date']
+    antal = request.form['antal']
 
     # Kopplar upp mig till databasen
 
@@ -130,5 +153,8 @@ def addArticle():
 
     # Lägger till informationen i databasen
 
-    connect.execute("INSERT INTO artikel VALUES(%s, %s, %s, %s, %s)", (currentID, namn, beskrivning, datum, tid))
+    connect.execute("INSERT INTO artikel VALUES(%s, %s, %s, %s, %s, %s)", (currentID, namn, beskrivning, datum, tid, antal))
     db.commit()
+
+
+            

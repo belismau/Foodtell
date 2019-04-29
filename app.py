@@ -14,6 +14,20 @@ def firstLetterUpper(word):
     firstLetter = word[0].upper()
     return firstLetter + letters
 
+def ngt():
+    db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
+    connect = db.cursor()
+
+    connect.execute("SELECT email FROM users WHERE username = %s", (request.form['username'],))
+
+    for i in connect:
+        email = i[0]
+
+    session['username'] = request.form['username']
+    session['email'] = email
+
+    return redirect(url_for('home'))
+
 app = Flask(__name__)
 app.secret_key = "1234abcd"
 
@@ -25,7 +39,6 @@ def index():
 
     else:
         return render_template("index.html")
-        
 
 @app.route("/register")
 def register():
@@ -48,7 +61,7 @@ def home():
 
         if request.form.get('register') == "REGISTER":
 
-            tryRegister = logreg.tryRegister(request.form['username'].lower(), request.form['password'])
+            tryRegister = logreg.tryRegister(request.form['username'].lower(), request.form['email'], request.form['password'])
 
             if tryRegister == 'User exist':
                 flash('USER ALREADY EXIST', 'error')
@@ -60,18 +73,20 @@ def home():
         
         else:
 
-            tryLogin = logreg.tryLogin(request.form['username'].lower(), request.form['password'])
+            tryLogin = logreg.tryLogin(request.form['username'], request.form['email'], request.form['password'])
 
-            if tryLogin == 'No username':
-                flash('USERNAME DOES NOT EXIST', 'error')
+            if tryLogin == 'No account':
+                flash('INVALID DETAILS', 'error')
                 return redirect(url_for('login'))
 
             elif tryLogin == 'Logged in':
+
                 session['username'] = request.form['username']
+
                 return redirect(url_for('home'))
             
             else:
-                flash('INVALID PASSWORD', 'error')
+                flash('INVALID DETAILS', 'error')
                 return redirect(url_for('login'))
 
     else:
@@ -103,6 +118,7 @@ def addarticle():
 
         if request.method == 'POST':
             article.addArticle()
+
             return redirect(url_for('articles'))
         
         else:
@@ -115,16 +131,34 @@ def addarticle():
 def articles():
 
     if 'username' in session:
-        article.removeArticle()
+        article.removeArticleTime()
         listArticle = article.presentArticle()
-        return render_template("artiklar.html", listArticle=listArticle, checkIfEmpty=len(listArticle))
+        return render_template("artiklar.html", listArticle=listArticle, checkIfEmpty=len(listArticle), username=session['username'])
     
+    else:
+        return redirect(url_for('login'))
+
+@app.route("/<user>", methods=['POST', 'GET'])
+def order(user):
+
+    if 'username' in session:
+        
+        if request.method == 'POST':
+            article.removeArticleAntal()
+            return render_template("artiklar.html", username=session['username'])
+        
+        else:
+            return render_template("artiklar.html", username=session['username'])
+
     else:
         return redirect(url_for('login'))
 
 @app.errorhandler(404)
 def notFound(e):
-    return 'This page does not exist', 404
+    if 'username' in session:
+        return redirect(url_for('login'))
+    else:
+        return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug = True)

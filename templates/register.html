@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title> Registrera </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='logreg.css') }}">
   </head>
   <body>
 
@@ -14,6 +14,7 @@
 
       <form action="/home" method="POST">
 
+        <input type="email" name="email" placeholder="EMAIL" required>
         <input type="text" name="username" placeholder="USERNAME" required>
         <input type="password" name="password" placeholder="PASSWORD" required>
         <input type="submit" value="REGISTER" name="register">
@@ -31,6 +32,8 @@
       {% endwith %}
 
     </div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='logreg.js') }}"></script>
 
   </body>
 </html>

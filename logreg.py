@@ -3,42 +3,44 @@
 import psycopg2
 import encrypt
 
-def tryLogin(username, password):
+def tryLogin(username, email, password):
 
     db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
     connect = db.cursor()
 
-    connect.execute("SELECT username, password FROM users WHERE username = %s", (username,))
+    connect.execute("SELECT username, email, password FROM users WHERE username = %s", (username,))
 
     usernameInput = None
+    emailInput = None
 
     for i in connect:
         usernameInput = i[0]
-        decryptedPassword = encrypt.checkEncryptedPassword(password, i[1])
+        emailInput = i[1]
+        decryptedPassword = encrypt.checkEncryptedPassword(password, i[2])
+    
+    if usernameInput is None or emailInput is None:
+        return 'Invalid'
             
-    if usernameInput is None:
-        return 'No username'
-            
-    elif usernameInput == username and decryptedPassword is True:
+    elif usernameInput == username and emailInput == email and decryptedPassword is True:
         return 'Logged in'
             
     else:
         return 'Invalid'
 
-def tryRegister(username, password):
+def tryRegister(username, email, password):
 
     db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
     connect = db.cursor()
 
-    connect.execute("SELECT username FROM users")
+    connect.execute("SELECT username, email FROM users")
 
-    usrnr = False
+    usrnrEmail = False
     for i in connect:
-        if username == i[0]:
-            usrnr = True
+        if username == i[0] or email == i[1]:
+            usrnrEmail = True
             return 'User exist'
             
-    if usrnr is False:
+    if usrnrEmail is False:
         listWithID = []
         connect.execute("SELECT id FROM users")
         for i in connect:
@@ -52,7 +54,7 @@ def tryRegister(username, password):
                 
         encryptedPassword = encrypt.encryptPassword(password)
                 
-        connect.execute("INSERT INTO users VALUES(%s, %s, %s)", (currentID, username, encryptedPassword))
+        connect.execute("INSERT INTO users VALUES(%s, %s, %s, %s)", (currentID, username, email, encryptedPassword))
         db.commit()
 
         return 'Registered'

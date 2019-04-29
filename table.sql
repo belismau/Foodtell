@@ -5,5 +5,6 @@ CREATE TABLE artikel (
     namn VARCHAR NOT NULL,
     beskrivning VARCHAR NOT NULL,
     datum VARCHAR NOT NULL,
-    tid VARCHAR NOT NULL
+    tid VARCHAR NOT NULL,
+    antal INTEGER NOT NULL
 );

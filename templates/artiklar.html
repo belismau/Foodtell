@@ -22,13 +22,22 @@
       <article id="container">
 
         <div id="over">
+          <p> McDonald's </p>
           <p> Artikel {{ rad[0] }} </p>
         </div>
 
         <div id="main">
           <h3> {{ rad[1] }} </h3>
-          <p id="subtitle"> Underrubrik </p>
+          <p id="subtitle"> Antal: {{ rad[5] }} st </p>
           <p id="beskrivning"> {{ rad[2] }} </p>
+
+          <form action="/{{ username }}" method="POST">
+            <input type="number" name="antal" min="1" max="{{ rad[5] }}" value="1" required>
+            <!-- ANNAT SÄTT ?? -->
+            <input id="articleID" type="number" name="id" value="{{ rad[0] }}">
+            <!-- ANNAT SÄTT ?? -->
+            <input type="submit" value="BESTÄLL">
+          </form>
 
           <div id="under">
             <i class="fa fa-clock-o" aria-hidden="true"></i>
@@ -37,6 +46,7 @@
             <p class="date"> {{ rad[3] }} </p>
             <p class="time"> &nbsp;&nbsp;{{ rad[4] }} </p>
           </div>
+
         </div>
 
       </article>
