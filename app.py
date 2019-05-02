@@ -4,29 +4,12 @@ from flask import Flask, render_template, request, session, logging, url_for, re
 import psycopg2
 import article
 import encrypt
-import logreg
+import log
+import reg
+import other
 
 import psycopg2.extensions
 psycopg2.extensions.register_type(psycopg2.extensions.UNICODE)
-
-def firstLetterUpper(word):
-    letters = word[1:]
-    firstLetter = word[0].upper()
-    return firstLetter + letters
-
-def ngt():
-    db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
-    connect = db.cursor()
-
-    connect.execute("SELECT email FROM users WHERE username = %s", (request.form['username'],))
-
-    for i in connect:
-        email = i[0]
-
-    session['username'] = request.form['username']
-    session['email'] = email
-
-    return redirect(url_for('home'))
 
 app = Flask(__name__)
 app.secret_key = "1234abcd"
@@ -43,7 +26,7 @@ def index():
 @app.route("/register")
 def register():
 
-    if 'username' in session:
+    if 'usernameKonsument' in session:
         return redirect(url_for('index'))
     
     else:
@@ -52,37 +35,83 @@ def register():
 @app.route("/home", methods=['POST', 'GET'])
 def home():
 
-    if 'username' in session:
-        username = firstLetterUpper(session['username'].lower())
+    addArticle = None
 
-        return render_template("home.html", username=username)
+    if 'usernameKonsument' in session:
+
+        return render_template("home.html", username=session['usernameKonsument'])
+    
+    elif 'usernameProducent' in session:
+
+        addArticle = True
+
+        return render_template("home.html", username=session['usernameProducent'], addArticle=addArticle)
     
     elif request.method == 'POST':
 
-        if request.form.get('register') == "REGISTER":
+        if request.form.get('registerKonsument') == "REGISTER":
 
-            tryRegister = logreg.tryRegister(request.form['username'].lower(), request.form['email'], request.form['password'])
+            tryRegister = reg.tryRegisterKonsument()
 
-            if tryRegister == 'User exist':
-                flash('USER ALREADY EXIST', 'error')
+            if tryRegister == 'User exist ON EMAIL AND TELNR':
+                flash('USER ALREADY EXIST ON EMAIL AND TELNR', 'error')
+                return redirect(url_for('register'))
+
+            elif tryRegister == 'User exist ON EMAIL':
+                flash('USER ALREADY EXIST ON EMAIL', 'error')
+                return redirect(url_for('register'))
+
+            elif tryRegister == 'User exist ON TELNR':
+                flash('USER ALREADY EXIST ON TELNR', 'error')
                 return redirect(url_for('register'))
 
             else:
-                session['username'] = request.form['username']
+                session['usernameKonsument'] = tryRegister[1] + " " + tryRegister[2]
+                session['emailKonsument'] = tryRegister[0]
                 return redirect(url_for('home'))
         
-        else:
+        elif request.form.get('registerProducent') == "REGISTER":
 
-            tryLogin = logreg.tryLogin(request.form['username'], request.form['email'], request.form['password'])
+            tryRegister = reg.tryRegisterProducent()
 
-            if tryLogin == 'No account':
+            if tryRegister == 'User exist':
+                flash('USER ALREADY EXIST ON TELNR', 'error')
+                return redirect(url_for('register'))
+            else:
+                session['telnrProducent'] = tryRegister[0]
+                session['emailProducent'] = tryRegister[1]
+                session['usernameProducent'] = tryRegister[2]
+                return redirect(url_for('home'))
+
+        elif request.form.get('loginKonsument') == "LOGIN":
+
+            tryLogin = log.tryLoginKonsument()
+
+            if tryLogin == 'Invalid':
                 flash('INVALID DETAILS', 'error')
                 return redirect(url_for('login'))
 
-            elif tryLogin == 'Logged in':
+            elif isinstance(tryLogin, (list,)):
+                session['usernameKonsument'] = tryLogin[1] + " " + tryLogin[2]
+                session['emailKonsument'] = tryLogin[0]
+                return redirect(url_for('home'))
+            
+            else:
+                flash('INVALID DETAILS', 'error')
+                return redirect(url_for('login'))
+            
+        else:
 
-                session['username'] = request.form['username']
+            tryLogin = log.tryLoginProducent()
 
+            if tryLogin == 'Invalid':
+                flash('INVALID DETAILS', 'error')
+                return redirect(url_for('login'))
+            
+            elif isinstance(tryLogin, (list,)):
+                session['telnrProducent'] = tryLogin[0]
+                session['emailProducent'] = tryLogin[1]
+                session['usernameProducent'] = tryLogin[2]
                 return redirect(url_for('home'))
             
             else:
@@ -95,7 +124,7 @@ def home():
 @app.route("/login", methods=['POST', 'GET'])
 def login():
     
-    if 'username' in session:
+    if 'usernameKonsument' in session:
         return redirect(url_for('home'))
     
     else:
@@ -104,8 +133,12 @@ def login():
 @app.route("/logout")
 def logout():
 
-    if 'username' in session:
-        session.pop('username', None)
+    if 'usernameKonsument' in session:
+        session.pop('usernameKonsument', None)
+        return redirect(url_for('index'))
+    
+    elif 'usernameProducent' in session:
+        session.pop('usernameProducent', None)
         return redirect(url_for('index'))
     
     else:
@@ -114,15 +147,11 @@ def logout():
 @app.route("/addarticle", methods=['POST', 'GET'])
 def addarticle():
 
-    if 'username' in session:
+    if 'usernameKonsument' in session:
+        return redirect(url_for('home'))
 
-        if request.method == 'POST':
-            article.addArticle()
-
-            return redirect(url_for('articles'))
-        
-        else:
-            return render_template("form.html")
+    elif 'usernameProducent' in session:
+        return render_template("form.html")
         
     else:
         return redirect(url_for('login'))
@@ -130,35 +159,71 @@ def addarticle():
 @app.route("/articles", methods=['POST', 'GET'])
 def articles():
 
-    if 'username' in session:
+    if 'usernameKonsument' in session or 'usernameProducent' in session:
         article.removeArticleTime()
         listArticle = article.presentArticle()
-        return render_template("artiklar.html", listArticle=listArticle, checkIfEmpty=len(listArticle), username=session['username'])
-    
-    else:
-        return redirect(url_for('login'))
 
-@app.route("/<user>", methods=['POST', 'GET'])
-def order(user):
-
-    if 'username' in session:
-        
-        if request.method == 'POST':
-            article.removeArticleAntal()
-            return render_template("artiklar.html", username=session['username'])
+        if 'usernameKonsument' in session:
+            return render_template("artiklar.html", listArticle=listArticle, checkIfEmpty=len(listArticle), username=session['usernameKonsument'])
         
         else:
-            return render_template("artiklar.html", username=session['username'])
+            if request.method == 'POST':
+                article.addArticle(session['telnrProducent'])
+                
+            return render_template("artiklar.html", listArticle=listArticle, checkIfEmpty=len(listArticle), username=session['usernameProducent'])    
+    else:
+        return redirect(url_for('login'))
+
+@app.route("/articles/<articleID>", methods=['POST', 'GET'])
+def order(articleID):
+
+    if 'usernameProducent' in session or 'usernameKonsument' in session:
+
+        listWithInfo = article.infoAboutArticle(articleID)
+
+        if len(listWithInfo) != 0:
+            return render_template("artikelinfo.html", listWithInfo=listWithInfo)
+        else:
+            return redirect(url_for('home'))
 
     else:
         return redirect(url_for('login'))
+
+@app.route("/producent")
+def producent():
+
+    if 'usernameProducent' in session or 'usernameKonsument' in session:
+
+        listWithProducentName = other.getAllProducentName()
+
+        return render_template("producentmain.html", listWithProducentName=listWithProducentName)
+
+    else:
+        return redirect(url_for('login'))
+
+@app.route("/producent/<telnr>")
+def producentname(telnr):
+
+    if 'usernameProducent' in session or 'usernameKonsument' in session:
+
+        listWithProducent = other.getProducentInfo(telnr)
+
+        if len(listWithProducent) != 0:
+            return render_template("producent.html", listWithProducent=listWithProducent)
+        else:
+            return redirect(url_for('home'))
+
+    else:
+        return redirect(url_for('login'))
+        
 
 @app.errorhandler(404)
 def notFound(e):
-    if 'username' in session:
-        return redirect(url_for('login'))
+    if 'usernameKonsument' in session or 'usernameProducent' in session:
+        return redirect(url_for('home'))
     else:
         return redirect(url_for('index'))
+
 
 if __name__ == '__main__':
     app.run(debug = True)

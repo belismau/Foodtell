@@ -5,35 +5,79 @@
     <title> Registrera </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='logreg.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
   <body>
 
     <div id="flex">
 
-      <h2> REGISTER </h2>
+      <div class="containerKonsument">
+        <h2> KONSUMENT REGISTER </h2>
 
-      <form action="/home" method="POST">
+        <form class="loginKonsument" action="/home" method="POST">
 
-        <input type="email" name="email" placeholder="EMAIL" required>
-        <input type="text" name="username" placeholder="USERNAME" required>
-        <input type="password" name="password" placeholder="PASSWORD" required>
-        <input type="submit" value="REGISTER" name="register">
+          <input type="text" name="fnamnKonsument" placeholder="FÖRNAMN" required>
+          <input type="text" name="enamnKonsument" placeholder="EFTERNAMN" required>
+          <input type="email" name="emailKonsument" placeholder="EMAIL" required>
+          <input type="number" name="telnrKonsument" placeholder="NUMMER" required>
+          <input type="password" name="passwordKonsument" placeholder="LÖSENORD" required>
+          <input type="submit" value="REGISTER" name="registerKonsument">
 
-        <p> Already have an account? <a href="login"> Login here </a> </p>
+          <p> Already have an account? <a href="login"> Login here </a> </p>
 
-      </form>
+          <div class="on-off">
+            <div class="back2"></div>
+            <div class="back"></div>
+            <div class="front producentButton"></div>
+          </div>
 
-      {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-          {% for category, message in messages %}
-            <p class="{{ category }}"> {{ message }} </p>
-          {% endfor %}
-        {% endif %}
-      {% endwith %}
+        </form>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <p class="{{ category }}"> {{ message }} </p>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+      </div>
+
+      <div class="containerProducent">
+        <h2> PRODUCENT REGISTER </h2>
+
+        <form class="loginProducent" action="/home" method="POST">
+
+          <input type="email" name="emailProducent" placeholder="EMAIL" required>
+          <input type="text" name="usernameProducent" placeholder="FÖRETAGETS NAMN" required>
+          <input type="text" name="adressProducent" placeholder="ADRESS" required>
+          <input type="number" name="nummerProducent" placeholder="TELEFONNUMMER" required>
+          <input type="password" name="passwordProducent" placeholder="LÖSENORD" required>
+          <input type="submit" value="REGISTER" name="registerProducent">
+
+          <p> Already have an account? <a href="login"> Login here </a> </p>
+
+          <div class="on-off">
+            <div class="back2"></div>
+            <div class="back"></div>
+            <div class="front konsumentButton"></div>
+          </div>
+
+        </form>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <p class="{{ category }}"> {{ message }} </p>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+      </div>
 
     </div>
 
     <script type="text/javascript" src="{{ url_for('static', filename='logreg.js') }}"></script>
-
   </body>
+
 </html>

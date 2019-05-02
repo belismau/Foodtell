@@ -4,6 +4,7 @@ body {
   font-family: 'Kanit', sans-serif;
   color: #e74c3c;
   margin: 0;
+  box-sizing: border-box;
 }
 
 #flex {
@@ -80,6 +81,37 @@ form {
   caret-color: white;
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
   margin: 0 10px 0 10px;
+}
+
+form > div {
+  display: flex;
+  width: 101%;
+}
+
+form > div > #today1 {
+  width: 50%;
+  margin-right: 2.5%;
+}
+
+form > div > #today {
+  width: 50%;
+  margin-left: 2.5%;
+}
+
+form > div > #ordpris {
+  width: 50%;
+  margin-right: 2.5%;
+}
+
+form > div > #nuvpris {
+  width: 50%;
+  margin-left: 2.5%;
+  margin-right: 0;
+}
+
+.left {
+  width: 50%;
+  margin-right: 5%;
 }
 
 input[type=text]:focus, input[type=time]:focus, input[type=date]:focus, input[type=number]:focus, textarea:focus {

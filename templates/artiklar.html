@@ -22,7 +22,7 @@
       <article id="container">
 
         <div id="over">
-          <p> McDonald's </p>
+          <a href="/articles/{{ rad[0] }}"> {{ rad[8] }} </a>
           <p> Artikel {{ rad[0] }} </p>
         </div>
 
@@ -30,6 +30,7 @@
           <h3> {{ rad[1] }} </h3>
           <p id="subtitle"> Antal: {{ rad[5] }} st </p>
           <p id="beskrivning"> {{ rad[2] }} </p>
+          <p id="pris"> <strike>{{ rad[6] }}kr</strike> {{ rad[7] }}kr </p>
 
           <form action="/{{ username }}" method="POST">
             <input type="number" name="antal" min="1" max="{{ rad[5] }}" value="1" required>

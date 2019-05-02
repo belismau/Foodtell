@@ -1,0 +1,8 @@
+p, h2, a {
+  text-align: center;
+}
+
+div {
+  margin: 20px;
+  border: 1px solid red;
+}

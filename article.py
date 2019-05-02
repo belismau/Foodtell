@@ -1,6 +1,6 @@
 # coding=utf-8
 
-from flask import request
+from flask import request, session
 import psycopg2
 import datetime
 
@@ -116,20 +116,22 @@ def presentArticle():
     connect = db.cursor()
 
     listArticle = []
-    connect.execute("SELECT * FROM artikel")
+    connect.execute("SELECT id, artikel.namn, beskrivning, datum, tid, antal, ordpris, nuvpris, producent.namn FROM artikel join producent on artikel.telnr=producent.telnr")
     for i in connect:
-        listArticle.append([i[0], i[1], i[2], i[3], i[4], i[5]])
+        listArticle.append([i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8]])
     db.commit()
 
     return listArticle
 
-def addArticle():
+def addArticle(telnr):
 
     namn = request.form['namn']
     beskrivning = request.form['beskrivning']
     tid = request.form['time']
     datum = request.form['date']
     antal = request.form['antal']
+    ordpris = request.form['ordinariepris']
+    nuvpris = request.form['nuvarandepris']
 
     # Kopplar upp mig till databasen
 
@@ -153,8 +155,22 @@ def addArticle():
 
     # Lägger till informationen i databasen
 
-    connect.execute("INSERT INTO artikel VALUES(%s, %s, %s, %s, %s, %s)", (currentID, namn, beskrivning, datum, tid, antal))
+    connect.execute("INSERT INTO artikel VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)", (currentID, telnr, namn, beskrivning, datum, tid, antal, ordpris, nuvpris))
     db.commit()
 
+def infoAboutArticle(articleID):
+    
+    db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
+    connect = db.cursor()
 
-            
+    connect.execute("SELECT artikel.id, producent.telnr, producent.email, producent.namn  FROM artikel JOIN producent ON artikel.telnr=producent.telnr  WHERE artikel.id = %s", (articleID,))
+
+    listWithInfo = []
+
+    for i in connect:
+        listWithInfo.append(i[0])
+        listWithInfo.append(i[1])
+        listWithInfo.append(i[2])
+        listWithInfo.append(i[3])
+
+    return listWithInfo
