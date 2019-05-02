@@ -2,21 +2,26 @@
 <html lang="sv">
   <head>
     <meta charset="utf-8">
-    <title> {{ username }} </title>
+    <title> Info </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='producent.css') }}">
   </head>
   <body>
 
-  {% for i in listWithProducent %}
-    <div>
-      <h2> Kontakt </h2>
-      <p> Namn: {{ i[2] }} </p>
-      <p> Email: {{ i[1] }} </p>
-      <p> Telnr: {{ i[0] }} </p>
-      <p> Adress {{ i[3] }} </p>
-    </div>
-  {% endfor %}
+    {% for i in listWithProducent %}
+      <article id="container">
+        <div id="over">
+          <p> {{ i[2] }} </p>
+        </div>
+
+        <div id="main">
+          <h3> KONTAKT </h3>
+          <p class="subtitle"> {{ i[1] }} </p>
+          <p class="subtitle"> {{ i[0] }} </p>
+          <p class="subtitle last"> {{ i[3] }} </p>
+        </div>
+      </article>
+    {% endfor %}
 
   </body>
 </html>

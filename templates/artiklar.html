@@ -32,10 +32,10 @@
           <p id="beskrivning"> {{ rad[2] }} </p>
           <p id="pris"> <strike>{{ rad[6] }}kr</strike> {{ rad[7] }}kr </p>
 
-          <form action="/{{ username }}" method="POST">
+          <form action="/buy" method="POST">
             <input type="number" name="antal" min="1" max="{{ rad[5] }}" value="1" required>
             <!-- ANNAT SÄTT ?? -->
-            <input id="articleID" type="number" name="id" value="{{ rad[0] }}">
+            <input id="articleID" type="number" name="articleID" value="{{ rad[0] }}">
             <!-- ANNAT SÄTT ?? -->
             <input type="submit" value="BESTÄLL">
           </form>

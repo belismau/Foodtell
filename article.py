@@ -7,7 +7,7 @@ import datetime
 def removeArticleAntal():
 
     antal = request.form['antal']
-    articleID = request.form['id']
+    articleID = request.form['articleID']
 
     db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
     connect = db.cursor()
@@ -140,18 +140,13 @@ def addArticle(telnr):
 
     # Lägger till alla ID i en lista
 
-    listWithID = []
-    connect.execute("SELECT id FROM artikel")
+    connect.execute("SELECT MAX(id) FROM artikel")
+
     for i in connect:
-        listWithID.append(i[0])
-    db.commit()
-
-    # Tar det sista ID:et i tabellen och ökar det med 1
-
-    if len(listWithID) == 0:
-        currentID = 1
-    else:
-        currentID = listWithID[len(listWithID)-1] + 1
+        if i[0] == None:
+            currentID = 1
+        else:
+            currentID = int(i[0] + 1)
 
     # Lägger till informationen i databasen
 
@@ -174,3 +169,33 @@ def infoAboutArticle(articleID):
         listWithInfo.append(i[3])
 
     return listWithInfo
+
+def buyArticle():
+
+    antal = request.form['antal']
+    articleID = request.form['articleID']
+
+    currentTime = datetime.datetime.now()
+
+    time = str(currentTime.hour) + ":" + str(currentTime.minute) + ":" + str(currentTime.second)
+    datum = datetime.datetime(currentTime.year, currentTime.month, currentTime.day)
+
+    db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
+    connect = db.cursor()
+
+    connect.execute("SELECT id, artikel.namn, ordpris, nuvpris, artikel.telnr, email, producent.namn FROM artikel JOIN producent ON artikel.telnr = producent.telnr WHERE id = %s", (articleID,))
+
+    listWithBuy = []
+    for i in connect:
+        summaNuv = int(antal) * int(i[3])
+        summaOrd = int(antal) * int(i[2])
+        sparat = summaOrd - summaNuv
+
+        listWithBuy.append([i[0], i[1], i[2], i[3], i[4], i[5], i[6], summaNuv, summaOrd, sparat, antal, datum, time])
+    
+    removeArticleAntal()
+    
+    return listWithBuy
+
+
+

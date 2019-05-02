@@ -163,14 +163,15 @@ def articles():
         article.removeArticleTime()
         listArticle = article.presentArticle()
 
-        if 'usernameKonsument' in session:
-            return render_template("artiklar.html", listArticle=listArticle, checkIfEmpty=len(listArticle), username=session['usernameKonsument'])
-        
-        else:
+        if 'usernameProducent' in session:
+            
             if request.method == 'POST':
                 article.addArticle(session['telnrProducent'])
-                
-            return render_template("artiklar.html", listArticle=listArticle, checkIfEmpty=len(listArticle), username=session['usernameProducent'])    
+                return render_template("artiklar.html", listArticle=listArticle, checkIfEmpty=len(listArticle), username=session['usernameProducent'])
+        
+        else:
+            return render_template("artiklar.html", listArticle=listArticle, checkIfEmpty=len(listArticle), username=session['usernameKonsument'])
+                   
     else:
         return redirect(url_for('login'))
 
@@ -223,6 +224,34 @@ def notFound(e):
         return redirect(url_for('home'))
     else:
         return redirect(url_for('index'))
+
+@app.route("/buy", methods=['POST', 'GET'])
+def buy():
+
+    if 'usernameKonsument' in session:
+
+        if request.method == 'POST':
+            article.removeArticleAntal()
+            kvitto = article.buyArticle()
+
+            return render_template("buy.html", kvitto=kvitto, byer=session['usernameKonsument'])
+        else:
+            return redirect(url_for('home'))
+
+    elif 'usernameProducent' in session:
+
+        if request.method == 'POST':
+            kvitto = article.buyArticle()
+
+            return render_template("buy.html", kvitto=kvitto, byer=session['usernameProducent'])
+        else:
+            return redirect(url_for('home'))
+    
+    else:
+        return redirect(url_for('login'))
+
+
+
 
 
 if __name__ == '__main__':
