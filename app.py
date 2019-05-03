@@ -1,5 +1,8 @@
 #coding=utf-8
 
+import sys
+sys.path.insert(6, '/Users/belis/Foodtell/functions')
+
 from flask import Flask, render_template, request, session, logging, url_for, redirect, flash
 import psycopg2
 import article
@@ -35,7 +38,7 @@ def register():
 @app.route("/home", methods=['POST', 'GET'])
 def home():
 
-    addArticle = None
+    producent = None
 
     if 'usernameKonsument' in session:
 
@@ -43,9 +46,9 @@ def home():
     
     elif 'usernameProducent' in session:
 
-        addArticle = True
+        producent = True
 
-        return render_template("home.html", username=session['usernameProducent'], addArticle=addArticle)
+        return render_template("home.html", username=session['usernameProducent'], producent=producent)
     
     elif request.method == 'POST':
 
@@ -161,15 +164,18 @@ def articles():
 
     if 'usernameKonsument' in session or 'usernameProducent' in session:
         article.removeArticleTime()
-        listArticle = article.presentArticle()
 
         if 'usernameProducent' in session:
+            listArticle = article.presentArticleProducent(session['telnrProducent'])
             
             if request.method == 'POST':
                 article.addArticle(session['telnrProducent'])
                 return render_template("artiklar.html", listArticle=listArticle, checkIfEmpty=len(listArticle), username=session['usernameProducent'])
+            else:
+                return render_template("artiklar.html", listArticle=listArticle, checkIfEmpty=len(listArticle), username=session['usernameProducent'])
         
         else:
+            listArticle = article.presentArticleKonsument()
             return render_template("artiklar.html", listArticle=listArticle, checkIfEmpty=len(listArticle), username=session['usernameKonsument'])
                    
     else:
@@ -249,6 +255,20 @@ def buy():
     
     else:
         return redirect(url_for('login'))
+
+@app.route("/myarticles", methods=['POST', 'GET'])
+def myarticles():
+
+    if 'usernameProducent' in session:
+
+        listWithProducentArticles = article.producentArticles(session['telnrProducent'])
+        return render_template("myarticles.html", listWithProducentArticles=listWithProducentArticles, checkIfEmpty=len(listWithProducentArticles))
+    
+    elif 'usernameKonsument' in session:
+        redirect(url_for('home'))
+    
+    else:
+        redirect(url_for('login'))
 
 
 

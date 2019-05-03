@@ -13,12 +13,13 @@
     {% if checkIfEmpty == 0 %}
 
       <div id="noArticles">
-        <h3> INGA ERBJUDANDEN TILLGÄNGLIGA JUST NU </h3>
+        <h3> DU HAR INGA ARTIKLAR UPPLAGDA </h3>
+        <a href="addarticle"> LÄGG TILL EN HÄR </a>
       </div>
 
     {% endif %}
 
-    {% for rad in listArticle %}
+    {% for rad in listWithProducentArticles %}
       <article id="container">
 
         <div id="over">
@@ -31,18 +32,6 @@
           <p id="subtitle"> Antal: {{ rad[5] }} st </p>
           <p id="beskrivning"> {{ rad[2] }} </p>
           <p id="pris"> <strike>{{ rad[6] }}kr</strike> {{ rad[7] }}kr </p>
-
-          {% if rad[9] == False %}
-
-            <form action="/buy" method="POST">
-              <input type="number" name="antal" min="1" max="{{ rad[5] }}" value="1" required>
-              <!-- ANNAT SÄTT ?? -->
-              <input id="articleID" type="number" name="articleID" value="{{ rad[0] }}">
-              <!-- ANNAT SÄTT ?? -->
-              <input type="submit" value="BESTÄLL">
-            </form>
-
-          {% endif %}
 
           <div id="under">
             <i class="fa fa-clock-o" aria-hidden="true"></i>

@@ -110,15 +110,38 @@ def removeArticleTime():
         else:
             pass
 
-def presentArticle():
+def presentArticleProducent(telnrProducent):
 
     db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
     connect = db.cursor()
 
     listArticle = []
-    connect.execute("SELECT id, artikel.namn, beskrivning, datum, tid, antal, ordpris, nuvpris, producent.namn FROM artikel join producent on artikel.telnr=producent.telnr")
+    connect.execute("SELECT id, artikel.namn, beskrivning, datum, tid, antal, ordpris, nuvpris, producent.namn, artikel.telnr FROM artikel join producent on artikel.telnr=producent.telnr")
+    
     for i in connect:
-        listArticle.append([i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8]])
+        if i[9] == telnrProducent:
+            producentArticle = True
+            listArticle.append([i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], producentArticle])
+        else:
+            producentArticle = False
+            listArticle.append([i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], producentArticle])
+
+    db.commit()
+
+    return listArticle
+
+def presentArticleKonsument():
+
+    db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
+    connect = db.cursor()
+
+    listArticle = []
+    connect.execute("SELECT id, artikel.namn, beskrivning, datum, tid, antal, ordpris, nuvpris, producent.namn, artikel.telnr FROM artikel join producent on artikel.telnr=producent.telnr")
+    
+    for i in connect:
+        producentArticle = False
+        listArticle.append([i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], producentArticle])
+
     db.commit()
 
     return listArticle
@@ -197,5 +220,17 @@ def buyArticle():
     
     return listWithBuy
 
+def producentArticles(telnr):
+
+    db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
+    connect = db.cursor()
+
+    connect.execute("SELECT id, artikel.namn, beskrivning, datum, tid, antal, ordpris, nuvpris, producent.namn FROM artikel join producent on artikel.telnr=producent.telnr WHERE artikel.telnr = %s", (telnr,))
+
+    listWithProducentArticles = []
+    for i in connect:
+        listWithProducentArticles.append([i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8]])
+
+    return listWithProducentArticles
 
 
