@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="sv">
+  <head>
+    <meta charset="utf-8">
+    <title> Buy </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/manageorder.css') }}">
+  </head>
+  <body>
+
+    {% if lenOrder == 0 %}
+
+    <h2> Inga beställningar finns som är pågående eller avslutade... </h2>
+
+    {% else %}
+
+      <h2> Pågående </h2>
+
+      {% for i in listWithOrder %}
+
+        {% if i[10] == False %}
+
+          <article id="container">
+
+            <div id="over">
+              <p> Ordernummer {{ i[0] }} </p>
+            </div>
+
+            <div id="main">
+              <h3> Från {{ i[8] }} </h3>
+              <p id="subtitle"> Antal köp: {{ i[5] }} st </p>
+              <p id="beskrivning"> Köpare: {{ i[10] }} </p>
+              <p id="beskrivning"> Telefonnummer: {{ i[2] }} </p>
+              <p id="beskrivning"> Email: {{ i[9] }} </p>
+              <p id="beskrivning"> Artikelns ID: {{ i[1] }} </p>
+              <p id="beskrivning"> Datum för köp: {{ i[6] }} </p>
+              <p id="beskrivning"> Tid för köp: {{ i[7] }} </p>
+              <p id="pris"> Att betala: <span> {{ i[4] }}kr </span> </p>
+
+              {% if producent == True %}
+
+                <form action="/removeorder" method="POST">
+                  <input id="dnone" type="name" name="ordernr" value="{{ i[0] }}">
+                  <input type="submit" value="REGISTRERA BETALD VARA">
+                </form>
+
+              {% endif %}
+
+            </div>
+
+          </article>
+
+        {% endif %}
+
+      {% endfor %}
+
+      <h2> Avslutade </h2>
+
+      {% for i in listWithOrder %}
+
+        {% if i[10] == True %}
+
+          <article id="container">
+
+            <div id="over">
+              <p> Ordernummer {{ i[0] }} </p>
+            </div>
+
+            <div id="main">
+              <h3> Från {{ i[8] }} </h3>
+              <p id="subtitle"> Antal köp: {{ i[5] }} st </p>
+              <p id="beskrivning"> Köpare: {{ i[10] }} </p>
+              <p id="beskrivning"> Telefonnummer: {{ i[2] }} </p>
+              <p id="beskrivning"> Email: {{ i[9] }} </p>
+              <p id="beskrivning"> Artikelns ID: {{ i[1] }} </p>
+              <p id="beskrivning"> Datum för köp: {{ i[6] }} </p>
+              <p id="beskrivning"> Tid för köp: {{ i[7] }} </p>
+              <p id="pris"> Att betala: <span> {{ i[4] }}kr </span> </p>
+            </div>
+
+          </article>
+
+        {% endif %}
+
+      {% endfor %}
+
+    {% endif %}
+
+  </body>
+</html>

@@ -3,28 +3,7 @@
 from flask import request, session
 import psycopg2
 import datetime
-
-def removeArticleAntal():
-
-    antal = request.form['antal']
-    articleID = request.form['articleID']
-
-    db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
-    connect = db.cursor()
-
-    connect.execute("SELECT id, antal FROM artikel WHERE id = %s", (articleID,))
-
-    resultat = connect.fetchall()
-
-    for i in resultat:
-
-        if i[1] == int(antal):
-            connect.execute("DELETE FROM artikel WHERE id = %s", (articleID,))
-            db.commit()
-        else:
-            newAntal = i[1] - int(antal)
-            connect.execute("UPDATE artikel SET antal = %s WHERE id = %s", (newAntal, articleID))
-            db.commit()
+import smtplib
 
 def removeArticleTime():
     
@@ -193,33 +172,6 @@ def infoAboutArticle(articleID):
 
     return listWithInfo
 
-def buyArticle():
-
-    antal = request.form['antal']
-    articleID = request.form['articleID']
-
-    currentTime = datetime.datetime.now()
-
-    time = str(currentTime.hour) + ":" + str(currentTime.minute) + ":" + str(currentTime.second)
-    datum = datetime.datetime(currentTime.year, currentTime.month, currentTime.day)
-
-    db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
-    connect = db.cursor()
-
-    connect.execute("SELECT id, artikel.namn, ordpris, nuvpris, artikel.telnr, email, producent.namn FROM artikel JOIN producent ON artikel.telnr = producent.telnr WHERE id = %s", (articleID,))
-
-    listWithBuy = []
-    for i in connect:
-        summaNuv = int(antal) * int(i[3])
-        summaOrd = int(antal) * int(i[2])
-        sparat = summaOrd - summaNuv
-
-        listWithBuy.append([i[0], i[1], i[2], i[3], i[4], i[5], i[6], summaNuv, summaOrd, sparat, antal, datum, time])
-    
-    removeArticleAntal()
-    
-    return listWithBuy
-
 def producentArticles(telnr):
 
     db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
@@ -233,4 +185,24 @@ def producentArticles(telnr):
 
     return listWithProducentArticles
 
+def removeArticleAntal():
 
+    antal = request.form['antal']
+    articleID = request.form['articleID']
+
+    db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
+    connect = db.cursor()
+
+    connect.execute("SELECT id, antal FROM artikel WHERE id = %s", (articleID,))
+
+    resultat = connect.fetchall()
+
+    for i in resultat:
+
+        if int(i[1]) == int(antal):
+            connect.execute("DELETE FROM artikel WHERE id = %s", (articleID,))
+            db.commit()
+        else:
+            newAntal = int(i[1]) - int(antal)
+            connect.execute("UPDATE artikel SET antal = %s WHERE id = %s", (newAntal, articleID))
+            db.commit()

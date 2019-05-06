@@ -18,8 +18,6 @@ def tryLoginKonsument():
     varEmail = None
 
     for i in connect:
-        fnamn = i[1]
-        enamn = i[2]
         varEmail = i[0]
         decryptedPassword = encrypt.checkEncryptedPassword(password, i[3])
         

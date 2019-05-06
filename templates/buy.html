@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title> Buy </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='buy.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/buy.css') }}">
   </head>
   <body>
 
@@ -18,22 +18,21 @@
 
         <div id="main">
           <h3> Från {{ i[6] }} </h3>
-          <p id="subtitle"> Antal köp: {{ i[10] }} st </p>
+          <p id="subtitle"> Antal köp: {{ i[9] }} st </p>
           <p id="beskrivning"> Köpare: {{ byer }} </p>
           <p id="beskrivning"> Producent: {{ i[6] }} </p>
           <p id="beskrivning"> Telefonnummer: {{ i[4] }} </p>
           <p id="beskrivning"> Email: {{ i[5] }} </p>
           <p id="beskrivning"> Mat: {{ i[1] }} </p>
           <p id="beskrivning"> Artikelns ID: {{ i[0] }} </p>
-          <p id="beskrivning"> Datum: {{ i[11] }} </p>
-          <p id="beskrivning"> Tid: {{ i[12] }} </p>
+          <p id="beskrivning"> Datum: {{ i[10] }} </p>
+          <p id="beskrivning"> Tid: {{ i[11] }} </p>
           <p id="pris"> Att betala: <strike>{{ i[8] }}kr</strike> <span> {{ i[7] }}kr </span> </p>
-          <p id="sparat"> Du har sparat: <span> {{ i[9] }}kr </span> </p>
         </div>
 
-      {% endfor %}
-
       </article>
+
+    {% endfor %}
 
   </body>
 </html>

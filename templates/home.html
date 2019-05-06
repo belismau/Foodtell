@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title> Home </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='home.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/home.css') }}">
   </head>
   <body>
 
@@ -15,8 +15,10 @@
       {% if producent == True %}
         <a class="article" href="addarticle"> LÄGG TILL EN ARTIKEL </a>
         <a class="article" href="myarticles"> DINA ARTIKLAR </a>
+        <a class="article" href="orders"> ORDERS </a>
       {% endif %}
 
+      <a class="article" href="myorders"> DINA BESTÄLLNINGAR </a>
       <a class="article" href="articles"> ARTIKLAR </a>
       <a class="article" href="producent"> REGISTRERADE PRODUCENTER </a>
       <a id="logout" href="logout"> LOGGA UT </a> </p>

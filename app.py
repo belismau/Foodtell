@@ -9,6 +9,7 @@ import article
 import encrypt
 import log
 import reg
+import buyArticle
 import other
 
 import psycopg2.extensions
@@ -170,6 +171,7 @@ def articles():
             
             if request.method == 'POST':
                 article.addArticle(session['telnrProducent'])
+                listArticle = article.presentArticleProducent(session['telnrProducent'])
                 return render_template("artiklar.html", listArticle=listArticle, checkIfEmpty=len(listArticle), username=session['usernameProducent'])
             else:
                 return render_template("artiklar.html", listArticle=listArticle, checkIfEmpty=len(listArticle), username=session['usernameProducent'])
@@ -237,8 +239,10 @@ def buy():
     if 'usernameKonsument' in session:
 
         if request.method == 'POST':
+            kvitto = buyArticle.buyArticle()
             article.removeArticleAntal()
-            kvitto = article.buyArticle()
+            buyArticle.sendEmail(session['usernameKonsument'], kvitto[0][6]) # Skicka fler värden pga skicka mail
+            buyArticle.addToOrders(kvitto, session['emailKonsument'])
 
             return render_template("buy.html", kvitto=kvitto, byer=session['usernameKonsument'])
         else:
@@ -247,7 +251,10 @@ def buy():
     elif 'usernameProducent' in session:
 
         if request.method == 'POST':
-            kvitto = article.buyArticle()
+            kvitto = buyArticle.buyArticle()
+            article.removeArticleAntal()
+            buyArticle.sendEmail(session['usernameProducent'], kvitto[0][6]) # Skicka fler värden pga skicka mail
+            buyArticle.addToOrders(kvitto, session['telnrProducent'])
 
             return render_template("buy.html", kvitto=kvitto, byer=session['usernameProducent'])
         else:
@@ -260,6 +267,7 @@ def buy():
 def myarticles():
 
     if 'usernameProducent' in session:
+        article.removeArticleTime()
 
         listWithProducentArticles = article.producentArticles(session['telnrProducent'])
         return render_template("myarticles.html", listWithProducentArticles=listWithProducentArticles, checkIfEmpty=len(listWithProducentArticles))
@@ -270,9 +278,60 @@ def myarticles():
     else:
         redirect(url_for('login'))
 
+@app.route("/myorders")
+def myorders():
 
+    if 'usernameProducent' in session or 'usernameKonsument' in session:
 
+        if 'usernameProducent' in session:
 
+            listWithOrder = buyArticle.orders(session['telnrProducent'], session['usernameProducent'])
+
+            return render_template("myorders.html", listWithOrder=listWithOrder)
+        
+        else:
+
+            listWithOrder = buyArticle.orders(session['emailKonsument'], session['usernameKonsument'])
+            
+            return render_template("myorders.html", listWithOrder=listWithOrder)
+
+    else:
+        redirect(url_for('login'))
+
+@app.route("/orders")
+def orders():
+
+    if 'usernameProducent' in session:
+
+        listWithOrder = buyArticle.producentOrders(session['telnrProducent'])
+
+        return render_template("manageorder.html", listWithOrder=listWithOrder, producent=True, lenOrder=len(listWithOrder))
+    
+    elif 'usernameKonsument' in session:
+        redirect(url_for('home'))
+    
+    else:
+        redirect(url_for('login'))
+
+@app.route("/removeorder", methods=['POST', 'GET'])
+def removeorder():
+
+    if 'usernameProducent' in session:
+
+        if request.method == 'POST':
+
+            buyArticle.removeOrder()
+
+            return redirect(url_for('home'))
+        
+        else:
+            redirect(url_for('home'))
+    
+    elif 'usernameKonsument' in session:
+        redirect(url_for('home'))
+
+    else:
+        redirect(url_for('login'))
 
 if __name__ == '__main__':
     app.run(debug = True)
