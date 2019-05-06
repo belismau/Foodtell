@@ -1,8 +1,5 @@
 #coding=utf-8
 
-import sys
-sys.path.insert(6, '/Users/belis/Foodtell/functions')
-
 from flask import Flask, render_template, request, session, logging, url_for, redirect, flash
 import psycopg2
 import article
