@@ -18,7 +18,7 @@ app.secret_key = "1234abcd"
 @app.route("/")
 def index():
 
-    if 'username' in session:
+    if 'usernameKonsument' in session or 'usernameProducent' in session:
         return redirect(url_for('home'))
 
     else:
@@ -169,7 +169,7 @@ def articles():
             if request.method == 'POST':
                 article.addArticle(session['telnrProducent'])
                 listArticle = article.presentArticleProducent(session['telnrProducent'])
-                return render_template("artiklar.html", listArticle=listArticle, checkIfEmpty=len(listArticle), username=session['usernameProducent'])
+                return redirect(url_for('articles'))
             else:
                 return render_template("artiklar.html", listArticle=listArticle, checkIfEmpty=len(listArticle), username=session['usernameProducent'])
         
@@ -241,6 +241,8 @@ def buy():
             buyArticle.sendEmail(session['usernameKonsument'], kvitto[0][6]) # Skicka fler värden pga skicka mail
             buyArticle.addToOrders(kvitto, session['emailKonsument'])
 
+            return redirect(url_for('myorders'))
+
             return render_template("buy.html", kvitto=kvitto, byer=session['usernameKonsument'])
         else:
             return redirect(url_for('home'))
@@ -261,13 +263,22 @@ def buy():
         return redirect(url_for('login'))
 
 @app.route("/myarticles", methods=['POST', 'GET'])
-def myarticles():
+def myArticles():
+
+    if 'usernameProducent' in session or 'usernameKonsument' in session:
+        return render_template("producentorders.html")
+    
+    else:
+        redirect(url_for('login'))
+
+@app.route("/myarticles/notexpired", methods=['POST', 'GET'])
+def myArticlesNotExpired():
 
     if 'usernameProducent' in session:
         article.removeArticleTime()
 
-        listWithProducentArticles = article.producentArticles(session['telnrProducent'])
-        return render_template("myarticles.html", listWithProducentArticles=listWithProducentArticles, checkIfEmpty=len(listWithProducentArticles))
+        producentArticles = article.producentArticles(session['telnrProducent'])
+        return render_template("myarticles2.html", notExpired=producentArticles[0])
     
     elif 'usernameKonsument' in session:
         redirect(url_for('home'))
@@ -275,22 +286,59 @@ def myarticles():
     else:
         redirect(url_for('login'))
 
-@app.route("/myorders")
+@app.route("/myarticles/expired", methods=['POST', 'GET'])
+def myArticlesExpired():
+
+    if 'usernameProducent' in session:
+        article.removeArticleTime()
+
+        producentArticles = article.producentArticles(session['telnrProducent'])
+        return render_template("myarticles1.html", Expired=producentArticles[1])
+    
+    elif 'usernameKonsument' in session:
+        redirect(url_for('home'))
+    
+    else:
+        redirect(url_for('login'))
+
+@app.route("/myorders", methods=['POST', 'GET'])
 def myorders():
 
     if 'usernameProducent' in session or 'usernameKonsument' in session:
 
-        if 'usernameProducent' in session:
+        if request.method == 'POST':
 
-            listWithOrder = buyArticle.orders(session['telnrProducent'], session['usernameProducent'])
+            article.removeArticleAntal()
+            kvitto = buyArticle.buyArticle()
 
-            return render_template("myorders.html", listWithOrder=listWithOrder)
+            if 'usernameKonsument' in session:
+
+                buyArticle.sendEmail(session['usernameKonsument'], kvitto[0][6]) # Skicka fler värden pga skicka mail
+                buyArticle.addToOrders(kvitto, session['emailKonsument'])
+
+                return redirect(url_for('myorders'))
+            
+            else:
+
+                buyArticle.sendEmail(session['usernameProducent'], kvitto[0][6]) # Skicka fler värden pga skicka mail
+                buyArticle.addToOrders(kvitto, session['telnrProducent'])
+
+                return redirect(url_for('myorders'))
         
         else:
-
-            listWithOrder = buyArticle.orders(session['emailKonsument'], session['usernameKonsument'])
             
-            return render_template("myorders.html", listWithOrder=listWithOrder)
+            if 'usernameProducent' in session:
+
+                listWithOrder = buyArticle.orders(session['telnrProducent'], session['usernameProducent'])
+
+                return render_template("myorders.html", listWithOrder=listWithOrder)
+            
+        
+            else:
+
+                listWithOrder = buyArticle.orders(session['emailKonsument'], session['usernameKonsument'])
+                
+                return render_template("myorders.html", listWithOrder=listWithOrder)
 
     else:
         redirect(url_for('login'))

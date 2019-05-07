@@ -10,15 +10,9 @@
   </head>
   <body>
 
-    {% if checkIfEmpty == 0 %}
+    <h2> Tillgängliga </h2>
 
-      <div id="noArticles">
-        <h3> INGA ERBJUDANDEN TILLGÄNGLIGA JUST NU </h3>
-      </div>
-
-    {% endif %}
-
-    {% for rad in listArticle %}
+    {% for rad in notExpired %}
       <article id="container">
 
         <div id="over">
@@ -31,18 +25,6 @@
           <p id="subtitle"> Antal: {{ rad[5] }} st </p>
           <p id="beskrivning"> {{ rad[2] }} </p>
           <p id="pris"> <strike>{{ rad[6] }}kr</strike> {{ rad[7] }}kr </p>
-
-          {% if rad[9] == True %}
-
-            <form action="/myorders" method="POST">
-              <input type="number" name="antal" min="1" max="{{ rad[5] }}" value="1" required>
-              <!-- ANNAT SÄTT ?? -->
-              <input id="articleID" type="number" name="articleID" value="{{ rad[0] }}">
-              <!-- ANNAT SÄTT ?? -->
-              <input type="submit" value="BESTÄLL">
-            </form>
-
-          {% endif %}
 
           <div id="under">
             <i class="fa fa-clock-o" aria-hidden="true"></i>

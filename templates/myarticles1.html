@@ -10,16 +10,9 @@
   </head>
   <body>
 
-    {% if checkIfEmpty == 0 %}
+    <h2> Avslutade </h2>
 
-      <div id="noArticles">
-        <h3> DU HAR INGA ARTIKLAR UPPLAGDA </h3>
-        <a href="addarticle"> LÄGG TILL EN HÄR </a>
-      </div>
-
-    {% endif %}
-
-    {% for rad in listWithProducentArticles %}
+    {% for rad in Expired %}
       <article id="container">
 
         <div id="over">
@@ -35,10 +28,7 @@
 
           <div id="under">
             <i class="fa fa-clock-o" aria-hidden="true"></i>
-            <p class="appear"></p>
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-            <p class="date"> {{ rad[3] }} </p>
-            <p class="time"> &nbsp;&nbsp;{{ rad[4] }} </p>
+            <p class="appear">Expired</p>
           </div>
 
         </div>
@@ -46,6 +36,5 @@
       </article>
     {% endfor %}
 
-    <script type="text/javascript" src="{{ url_for('static', filename='JS/artiklar.js') }}"></script>
   </body>
 </html>

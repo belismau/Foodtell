@@ -55,7 +55,6 @@ input[type=text], input[type=password], input[type=email], input[type=number] {
   border: none;
   border-bottom: 1px solid white;
   background: transparent;
-  transition: 0.3s;
   width: 100%;
   margin: 10px 0 10px 0;
   resize: none;
@@ -139,7 +138,6 @@ input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, inp
   position: absolute;
   left: 0;
   background-color: lightgrey;
-  transition: left 300ms ease-in-out, right 300ms ease-in-out;
 }
 
 .front:hover {
