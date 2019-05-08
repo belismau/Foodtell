@@ -8,39 +8,48 @@
   </head>
   <body>
 
-    {% for i in listWithOrder %}
+    {% if empty == 0 %}
 
-      <article id="container">
+      <h2> Du har inte beställt något </h2>
 
-        <div id="over">
-          <p> Ordernummer {{ i[0] }} </p>
-        </div>
+    {% else %}
 
-        <div id="main">
-          <h3> Från {{ i[8] }} </h3>
-          <p id="subtitle"> Antal köp: {{ i[5] }} st </p>
-          <p id="beskrivning"> Köpare: {{ i[10] }} </p>
-          <p id="beskrivning"> Telefonnummer: {{ i[2] }} </p>
-          <p id="beskrivning"> Email: {{ i[9] }} </p>
-          <p id="beskrivning"> Artikelns ID: {{ i[1] }} </p>
-          <p id="beskrivning"> Datum för köp: {{ i[6] }} </p>
-          <p id="beskrivning"> Tid för köp: {{ i[7] }} </p>
-          <p id="pris"> Att betala: <span> {{ i[4] }}kr </span> </p>
+      {% for i in listWithOrder %}
 
-          {% if producent == True %}
+        <article id="container">
 
-            <form action="/removeorder" method="POST">
-              <input id="dnone" type="name" name="ordernr" value="{{ i[0] }}">
-              <input type="submit" value="REGISTRERA BETALD VARA">
-            </form>
+          <div id="over">
+            <p> Ordernummer {{ i[0] }} </p>
+          </div>
 
-          {% endif %}
+          <div id="main">
+            <h3> Från {{ i[8] }} </h3>
+            <p id="subtitle"> Antal köp: {{ i[5] }} st </p>
+            <p id="beskrivning"> Köpare: {{ i[10] }} </p>
+            <p id="beskrivning"> Telefonnummer: {{ i[2] }} </p>
+            <p id="beskrivning"> Email: {{ i[9] }} </p>
+            <p id="beskrivning"> Artikelns ID: {{ i[1] }} </p>
+            <p id="beskrivning"> Datum för köp: {{ i[6] }} </p>
+            <p id="beskrivning"> Tid för köp: {{ i[7] }} </p>
+            <p id="pris"> Att betala: <span> {{ i[4] }}kr </span> </p>
 
-        </div>
+            {% if producent == True %}
 
-      </article>
+              <form action="/removeorder" method="POST">
+                <input id="dnone" type="name" name="ordernr" value="{{ i[0] }}">
+                <input type="submit" value="REGISTRERA BETALD VARA">
+              </form>
 
-    {% endfor %}
+            {% endif %}
+
+          </div>
+
+        </article>
+
+      {% endfor %}
+
+    {% endif %}
 
   </body>
+
 </html>

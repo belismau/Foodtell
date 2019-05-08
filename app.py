@@ -27,8 +27,8 @@ def index():
 @app.route("/register")
 def register():
 
-    if 'usernameKonsument' in session:
-        return redirect(url_for('index'))
+    if 'usernameKonsument' in session or 'usernameProducent' in session:
+        return redirect(url_for('home'))
     
     else:
         return render_template("register.html")
@@ -180,21 +180,6 @@ def articles():
     else:
         return redirect(url_for('login'))
 
-@app.route("/articles/<articleID>", methods=['POST', 'GET'])
-def order(articleID):
-
-    if 'usernameProducent' in session or 'usernameKonsument' in session:
-
-        listWithInfo = article.infoAboutArticle(articleID)
-
-        if len(listWithInfo) != 0:
-            return render_template("artikelinfo.html", listWithInfo=listWithInfo)
-        else:
-            return redirect(url_for('home'))
-
-    else:
-        return redirect(url_for('login'))
-
 @app.route("/producent")
 def producent():
 
@@ -221,7 +206,6 @@ def producentname(telnr):
 
     else:
         return redirect(url_for('login'))
-        
 
 @app.errorhandler(404)
 def notFound(e):
@@ -229,38 +213,6 @@ def notFound(e):
         return redirect(url_for('home'))
     else:
         return redirect(url_for('index'))
-
-@app.route("/buy", methods=['POST', 'GET'])
-def buy():
-
-    if 'usernameKonsument' in session:
-
-        if request.method == 'POST':
-            kvitto = buyArticle.buyArticle()
-            article.removeArticleAntal()
-            buyArticle.sendEmail(session['usernameKonsument'], kvitto[0][6]) # Skicka fler värden pga skicka mail
-            buyArticle.addToOrders(kvitto, session['emailKonsument'])
-
-            return redirect(url_for('myorders'))
-
-            return render_template("buy.html", kvitto=kvitto, byer=session['usernameKonsument'])
-        else:
-            return redirect(url_for('home'))
-
-    elif 'usernameProducent' in session:
-
-        if request.method == 'POST':
-            kvitto = buyArticle.buyArticle()
-            article.removeArticleAntal()
-            buyArticle.sendEmail(session['usernameProducent'], kvitto[0][6]) # Skicka fler värden pga skicka mail
-            buyArticle.addToOrders(kvitto, session['telnrProducent'])
-
-            return render_template("buy.html", kvitto=kvitto, byer=session['usernameProducent'])
-        else:
-            return redirect(url_for('home'))
-    
-    else:
-        return redirect(url_for('login'))
 
 @app.route("/myarticles", methods=['POST', 'GET'])
 def myArticles():
@@ -278,7 +230,7 @@ def myArticlesNotExpired():
         article.removeArticleTime()
 
         producentArticles = article.producentArticles(session['telnrProducent'])
-        return render_template("myarticles2.html", notExpired=producentArticles[0])
+        return render_template("myarticles2.html", notExpired=producentArticles[0], empty=len(producentArticles[0]))
     
     elif 'usernameKonsument' in session:
         redirect(url_for('home'))
@@ -293,7 +245,7 @@ def myArticlesExpired():
         article.removeArticleTime()
 
         producentArticles = article.producentArticles(session['telnrProducent'])
-        return render_template("myarticles1.html", Expired=producentArticles[1])
+        return render_template("myarticles1.html", Expired=producentArticles[1], empty=len(producentArticles[1]))
     
     elif 'usernameKonsument' in session:
         redirect(url_for('home'))
@@ -331,7 +283,7 @@ def myorders():
 
                 listWithOrder = buyArticle.orders(session['telnrProducent'], session['usernameProducent'])
 
-                return render_template("myorders.html", listWithOrder=listWithOrder)
+                return render_template("myorders.html", listWithOrder=listWithOrder, empty=len(listWithOrder))
             
         
             else:
@@ -377,6 +329,15 @@ def removeorder():
 
     else:
         redirect(url_for('login'))
+
+@app.route("/test")
+def test():
+
+    QRcode = pyqrcode.create('hello')
+    QRcode.png('hello.png', scale=7)
+
+    return QRcode
+
 
 if __name__ == '__main__':
     app.run(debug = True)

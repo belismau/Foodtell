@@ -92,13 +92,51 @@ def producentOrders(producent):
     db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
     connect = db.cursor()
 
-    connect.execute("SELECT ordernr, artikelid, producent, byer, summa, antal, datum, tid, producent.namn, email, betalt FROM kvitto JOIN producent ON kvitto.producent = producent.telnr WHERE producent = %s", (producent,))
+    # FÖR DE KONSUMENTER SOM BESTÄLLT
+
+    connect.execute("SELECT ordernr, artikelid, artikel.namn, fnamn, enamn, byer, konsumenttelnr.telnr, summa, kvitto.antal, kvitto.datum, kvitto.tid, betalt FROM kvitto JOIN konsument ON byer=konsument.email JOIN artikel ON artikelid=artikel.id JOIN konsumenttelnr ON byer=konsumenttelnr.email WHERE producent = %s", (producent,))
 
     listWithOrder = []
     for i in connect:
-        if i[10] == False:
-            listWithOrder.append([i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9], False])
+
+        ordernr = i[0]
+        artikelID = i[1]
+        artikelNamn = i[2]
+        namnKonsument = i[3] + " " + i[4]
+        email = i[5]
+        telnr = i[6]
+        summa = i[7]
+        antal = i[8]
+        datum = i[9]
+        tid = i[10]
+        betalt = i[11]
+
+        if betalt == False:
+            listWithOrder.append([ordernr, artikelID, artikelNamn, namnKonsument, email, telnr, summa, antal, datum, tid, False])
         else:
-            listWithOrder.append([i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9], True])
+            listWithOrder.append([ordernr, artikelID, artikelNamn, namnKonsument, email, telnr, summa, antal, datum, tid, True])
+
+    # FÖR DE PRODUCENTER SOM BESTÄLLT
+
+    connect.execute("SELECT ordernr, artikelid, artikel.namn, producent.namn, byer, producent.email, summa, kvitto.antal, kvitto.datum, kvitto.tid, betalt FROM kvitto JOIN artikel ON artikelid=artikel.id JOIN producent ON byer=producent.telnr WHERE producent = %s", (producent,))
+    
+    for i in connect:
+
+        ordernr = i[0]
+        artikelID = i[1]
+        artikelNamn = i[2]
+        namnProducent = i[3]
+        email = i[5]
+        telnr = i[4]
+        summa = i[6]
+        antal = i[7]
+        datum = i[8]
+        tid = i[9]
+        betalt = i[10]
+
+        if betalt == False:
+            listWithOrder.append([ordernr, artikelID, artikelNamn, namnProducent, email, telnr, summa, antal, datum, tid, False])
+        else:
+            listWithOrder.append([ordernr, artikelID, artikelNamn, namnProducent, email, telnr, summa, antal, datum, tid, True])
 
     return listWithOrder

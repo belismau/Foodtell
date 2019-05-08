@@ -10,31 +10,43 @@
   </head>
   <body>
 
-    <h2> Avslutade </h2>
+    {% if empty == 0 %}
 
-    {% for rad in Expired %}
-      <article id="container">
+    <h2> Du har inga avslutade artiklar </h2>
 
-        <div id="over">
-          <a href="/articles/{{ rad[0] }}"> {{ rad[8] }} </a>
-          <p> Artikel {{ rad[0] }} </p>
-        </div>
+    {% else %}
 
-        <div id="main">
-          <h3> {{ rad[1] }} </h3>
-          <p id="subtitle"> Antal: {{ rad[5] }} st </p>
-          <p id="beskrivning"> {{ rad[2] }} </p>
-          <p id="pris"> <strike>{{ rad[6] }}kr</strike> {{ rad[7] }}kr </p>
+      <h2> Avslutade </h2>
 
-          <div id="under">
-            <i class="fa fa-clock-o" aria-hidden="true"></i>
-            <p class="appear">Expired</p>
+      {% for rad in Expired %}
+        <article id="container">
+
+          <div id="over">
+            <p> {{ rad[8] }} </p>
+            <p> Artikel {{ rad[0] }} </p>
           </div>
 
-        </div>
+          <div id="main">
+            <h3> {{ rad[1] }} </h3>
+            <p id="subtitle"> Antal: {{ rad[5] }} st </p>
+            <p id="beskrivning"> {{ rad[2] }} </p>
+            <p id="pris"> <strike>{{ rad[6] }}kr</strike> {{ rad[7] }}kr </p>
 
-      </article>
-    {% endfor %}
+            <div id="under">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              <p class="appear">Avslutad</p>
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <p class="date"> {{ rad[3] }} </p>
+              <p class="time"> &nbsp;&nbsp;{{ rad[4] }} </p>
+            </div>
+
+          </div>
+
+        </article>
+
+      {% endfor %}
+
+    {% endif %}
 
   </body>
 </html>
