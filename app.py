@@ -295,17 +295,17 @@ def myorders():
     else:
         redirect(url_for('login'))
 
-@app.route("/orders")
+@app.route("/orders", methods=['POST', 'GET'])
 def orders():
 
-    if 'usernameProducent' in session:
+    if 'usernameKonsument' in session:
+        redirect(url_for('home'))
+
+    elif 'usernameProducent' in session:
 
         listWithOrder = buyArticle.producentOrders(session['telnrProducent'])
 
         return render_template("manageorder.html", listWithOrder=listWithOrder, producent=True, lenOrder=len(listWithOrder))
-    
-    elif 'usernameKonsument' in session:
-        redirect(url_for('home'))
     
     else:
         redirect(url_for('login'))
