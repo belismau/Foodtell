@@ -260,20 +260,21 @@ def myorders():
 
         if request.method == 'POST':
 
-            article.removeArticleAntal()
             kvitto = buyArticle.buyArticle()
 
             if 'usernameKonsument' in session:
 
-                buyArticle.sendEmail(session['usernameKonsument'], kvitto[0][6]) # Skicka fler värden pga skicka mail
                 buyArticle.addToOrders(kvitto, session['emailKonsument'])
+                buyArticle.sendEmail(session['emailKonsument'], kvitto)
+                article.removeArticleAntal()
 
                 return redirect(url_for('myorders'))
             
             else:
 
-                buyArticle.sendEmail(session['usernameProducent'], kvitto[0][6]) # Skicka fler värden pga skicka mail
                 buyArticle.addToOrders(kvitto, session['telnrProducent'])
+                buyArticle.sendEmail(session['telnrProducent'], kvitto)
+                article.removeArticleAntal()
 
                 return redirect(url_for('myorders'))
         
