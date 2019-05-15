@@ -1,77 +1,70 @@
 var articleInterval = setInterval(function() {
 
-  // Fångar upp information om artiklens datum
-
   var articleElements = document.getElementsByClassName("date");
-
-  // Skapar en for-loop pga alla artiklar i min db ska köra denna kod
-  // "Kör for-loopen så många gånger som det finns datum i db:n"
 
   for(var i = 0; i < articleElements.length; i++) {
 
-    // Fångar upp det som finns i articleElements[i] och lagrar det i en variabel
-
     var articleDate = articleElements[i].innerText;
-
-    // Fångar upp det som finns efter articleElements[i] och lagrar det i en variabel
 
     var articleTime = articleElements[i].nextElementSibling.innerText;
 
-    // Tar bort mellanrummet som finns i min HTML-kod
-
     var articleTime = articleTime.substr(2);
-
-    // Lagrar det enligt formatet "1995-12-17T03:24:00" som exempel
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
 
     var total = articleDate + 'T' + articleTime + ':00';
 
-    // Omvandlar artikelns information ovan till millisekunder
-
     var countDownTime = new Date(total).getTime();
-
-    // Fångar upp det element som är föregående x2 från articleElements och lagrar det i en variabel
 
     var elAppear = articleElements[i].previousElementSibling.previousElementSibling;
 
-    // Återkommer
-
     elAppear.setAttribute('data-countdown', countDownTime);
-
-    // Ger nuvarande tid
 
     var timeNow = new Date().getTime();
 
-    // Skillnaden mellan artikelns tid och nuvarande tid
-    // Resultatet ges i millisekunder
-
     var difference = countDownTime - timeNow;
-
-    // Beräknar tiden för dagar, timmar, minuter och sekunder
 
     var days = Math.floor(difference / (1000 * 60 * 60 * 24));
     var hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     var minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-    // Lagrar tiden som skapats ovan tillsammans i en variabel
-
     var result = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
 
     elAppear.innerText = result;
 
-    // När countdown är 50 millisekunder
-
     if (difference < 100) {
-
-      // Uppdaterar sidan
-
       location.reload();
-
     }
-
   }
 
-// Funktionen körs varje 1000 millisekund, därav 1000
-
 }, 1000);
+
+// När användaren vill slutföra beställningen
+
+$('.areYouSure').click(function() {
+  // Antal kvar i artikeln
+  var antalKvar = $(this).closest('div').find('.subtitle').text();
+  var antalKvar = antalKvar.substring(7);
+  var antalKvarInt = parseInt(antalKvar, 10);
+
+  // Antal användaren valt
+  var antalChosen = $(this).closest('form').find('.antalChosen').val();
+  var antalChosenInt = parseInt(antalChosen, 10);
+
+  // Se till att man endast kan köpa antalet artiklar som varje artikel visar
+  if (antalChosenInt > antalKvarInt || antalChosenInt < 1 || isNaN(antalChosenInt)) {
+    $(this).closest('div').find('.noDisplay').css("width", "0");
+  } else {
+    $(this).closest('div').find('.noDisplay').css("width", "100%");
+
+    var artikelChosen = $(this).closest('div').find('.artikelChosen').text();
+
+    $(this).closest('div').find('.antalDisplay').append(antalChosenInt);
+    $(this).closest('div').find('.namnDisplay').append(artikelChosen);
+  }
+});
+
+$('.back').click(function() {
+  $(".noDisplay").css("width", "0");
+  $(this).closest('form').find('.antalDisplay').empty();
+  $(this).closest('form').find('.namnDisplay').empty();
+});

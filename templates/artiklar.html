@@ -7,6 +7,7 @@
     <script src="https://use.fontawesome.com/8216db457b.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
   <body>
 
@@ -19,6 +20,7 @@
     {% endif %}
 
     {% for rad in listArticle %}
+
       <article id="container">
 
         <div id="over">
@@ -27,19 +29,29 @@
         </div>
 
         <div id="main">
-          <h3> {{ rad[1] }} </h3>
-          <p id="subtitle"> Antal: {{ rad[5] }} st </p>
+          <h3 class="artikelChosen">{{ rad[1] }}</h3>
+          <p class="subtitle">Antal: {{ rad[5] }} st</p>
           <p id="beskrivning"> {{ rad[2] }} </p>
-          <p id="pris"> <strike>{{ rad[6] }}kr</strike> {{ rad[7] }}kr </p>
+          <p onclick="location.reload();" id="pris"> <strike>{{ rad[6] }}kr</strike> {{ rad[7] }}kr </p>
 
           {% if rad[9] == True %}
 
-            <form action="/myorders" method="POST">
-              <input type="number" name="antal" min="1" max="{{ rad[5] }}" value="1" required>
+            <form onkeydown="return event.key != 'Enter';" action="/myorders" method="POST">
+              <input class="antalChosen" type="number" name="antal" min="1" step="1" oninput="(validity.valid)||(value='');" max="{{ rad[5] }}" value="1" tabindex="-1" required>
               <!-- ANNAT SÄTT ?? -->
               <input id="articleID" type="number" name="articleID" value="{{ rad[0] }}">
               <!-- ANNAT SÄTT ?? -->
-              <input type="submit" value="BESTÄLL">
+
+              <a class="areYouSure"> BESTÄLL </a>
+
+              <div class="noDisplay">
+                <h3> Vill du slutföra beställningen? </h3>
+                <p> Du har valt <span class="antalDisplay"></span>st "<span class="namnDisplay"></span>" </p>
+                <div id="alternatives">
+                  <a class="back"> TILLBAKA </a>
+                  <input type="submit" value="BESTÄLL">
+                </div>
+              </div>
             </form>
 
           {% endif %}
@@ -55,6 +67,7 @@
         </div>
 
       </article>
+
     {% endfor %}
 
     <script type="text/javascript" src="{{ url_for('static', filename='JS/artiklar.js') }}"></script>
