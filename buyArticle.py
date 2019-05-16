@@ -131,7 +131,6 @@ def sendEmail(byer, kvitto):
     # Create the body of the message (a plain-text and an HTML version).
     text = "Något"
 
-
     rows = ""
     for i in listWithArticles:
         if i is None:

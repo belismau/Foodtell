@@ -11,62 +11,65 @@
 
     <div id="flex">
 
-      <div class="containerKonsument">
-        <h2> KONSUMENT LOGIN </h2>
+      <div id="containerAll">
 
-        <form action="/home" method="POST">
+        <div class="containerKonsument">
+          <h2> KONSUMENT LOGIN </h2>
 
-          <input type="email" name="emailKonsument" placeholder="EMAIL" required>
-          <input type="password" name="passwordKonsument" placeholder="LÖSENORD" required>
-          <input type="submit" value="LOGIN" name="loginKonsument">
+          <form action="/home" method="POST">
 
-          <p> Don't have an account? <a href="register"> Register here </a> </p>
+            <input type="email" name="emailKonsument" placeholder="EMAIL" required>
+            <input type="password" name="passwordKonsument" placeholder="LÖSENORD" required>
+            <input type="submit" value="LOGIN" name="loginKonsument">
 
-          <div class="on-off">
-            <div class="back2"></div>
-            <div class="back"></div>
-            <div class="front producentButton"></div>
-          </div>
+            <p> Don't have an account? <a href="register"> Register here </a> </p>
 
-        </form>
+            <div class="on-off">
+              <div class="back2"></div>
+              <div class="back"></div>
+              <div class="front producentButton"></div>
+            </div>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-            {% for category, message in messages %}
-              <p class="{{ category }}"> {{ message }} </p>
-            {% endfor %}
-          {% endif %}
-        {% endwith %}
+          </form>
 
-      </div>
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <p class="{{ category }}"> {{ message }} </p>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+        </div>
 
-      <div class="containerProducent">
+        <div class="containerProducent">
 
-        <h2> PRODUCENT LOGIN </h2>
+          <h2> PRODUCENT LOGIN </h2>
 
-        <form action="/home" method="POST">
+          <form action="/home" method="POST">
 
-          <input type="number" name="numberProducent" placeholder="TELEFONNUMMER" required>
-          <input type="password" name="passwordProducent" placeholder="LÖSENORD" required>
-          <input type="submit" value="LOGIN" name="loginProducent">
+            <input type="number" name="numberProducent" placeholder="TELEFONNUMMER" required>
+            <input type="password" name="passwordProducent" placeholder="LÖSENORD" required>
+            <input type="submit" value="LOGIN" name="loginProducent">
 
-          <p> Don't have an account? <a href="register"> Register here </a> </p>
+            <p> Don't have an account? <a href="register"> Register here </a> </p>
 
-          <div class="on-off">
-            <div class="back2"></div>
-            <div class="back"></div>
-            <div class="front konsumentButton"></div>
-          </div>
+            <div class="on-off">
+              <div class="back2"></div>
+              <div class="back"></div>
+              <div class="front konsumentButton"></div>
+            </div>
 
-        </form>
+          </form>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-            {% for category, message in messages %}
-              <p class="{{ category }}"> {{ message }} </p>
-            {% endfor %}
-          {% endif %}
-        {% endwith %}
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <p class="{{ category }}"> {{ message }} </p>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+
+        </div>
 
       </div>
 

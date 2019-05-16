@@ -22,7 +22,7 @@ h2 {
   margin: 0;
   padding: 40px 40px 40px 40px;
   background: white;
-  width: 300px;
+  max-width: 300px;
   margin: 0 10px 0 10px;
   text-align: center;
 }
@@ -37,6 +37,16 @@ p {
 .error {
   margin: 20px 0 0 0;
   color: red;
+}
+
+.containerKonsument {
+  width: 100%;
+}
+
+#containerAll {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 a {
