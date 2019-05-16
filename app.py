@@ -339,6 +339,5 @@ def test():
 
     return QRcode
 
-
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(host='foodtell1.herokuapp.com')
