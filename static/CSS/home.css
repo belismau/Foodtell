@@ -18,6 +18,14 @@ body {
   margin: 0;
 }
 
+#containerAll {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+}
+
 h2, .article {
   padding: 20px 40px 20px 40px;
   background: #e74c3c;
@@ -26,6 +34,7 @@ h2, .article {
   text-align: center;
   box-shadow: 0 5px 5px rgba(0,0,0,0.10), 0 5px 5px rgba(0,0,0,0.22);
   width: 300px;
+  margin: 0 10px 0 10px;
 }
 
 .article {

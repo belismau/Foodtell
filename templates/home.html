@@ -10,18 +10,22 @@
 
     <div id="flex">
 
-      <h2> Välkommen, {{ username }} </h2>
+      <div id="containerAll">
 
-      {% if producent == True %}
-        <a class="article" href="addarticle"> LÄGG TILL EN ARTIKEL </a>
-        <a class="article" href="myarticles"> DINA ARTIKLAR </a>
-        <a class="article" href="orders"> ALLA ORDERS </a>
-      {% endif %}
+        <h2> Välkommen, {{ username }} </h2>
 
-      <a class="article" href="myorders"> DINA BESTÄLLNINGAR </a>
-      <a class="article" href="articles"> HITTA ALLA ARTIKLAR HÄR </a>
-      <a class="article" href="producent"> REGISTRERADE PRODUCENTER </a>
-      <a id="logout" href="logout"> LOGGA UT </a> </p>
+        {% if producent == True %}
+          <a class="article" href="addarticle"> LÄGG TILL EN ARTIKEL </a>
+          <a class="article" href="myarticles"> DINA ARTIKLAR </a>
+          <a class="article" href="orders"> ALLA ORDERS </a>
+        {% endif %}
+
+        <a class="article" href="myorders"> DINA BESTÄLLNINGAR </a>
+        <a class="article" href="articles"> HITTA ALLA ARTIKLAR HÄR </a>
+        <a class="article" href="producent"> REGISTRERADE PRODUCENTER </a>
+        <a id="logout" href="logout"> LOGGA UT </a> </p>
+
+      </div>
 
     </div>
 
