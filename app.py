@@ -238,7 +238,7 @@ def articles():
 @app.route("/producent")
 def producent():
 
-    if 'usernameProducent' in session or 'usernameKonsument' in session:
+    if 'usernameProducent' in session:
 
         if other.verifyProducent(session['telnrProducent']) != False:
 
@@ -247,6 +247,11 @@ def producent():
         
         else:
             return redirect(url_for('notVerified'))
+    
+    elif 'usernameKonsument' in session:
+
+        listWithProducentName = other.getAllProducentName()
+        return render_template("producentmain.html", listWithProducentName=listWithProducentName)
 
     else:
         return redirect(url_for('login'))
