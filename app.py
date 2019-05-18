@@ -259,7 +259,7 @@ def producent():
 @app.route("/producent/<telnr>")
 def producentname(telnr):
 
-    if 'usernameProducent' in session or 'usernameKonsument' in session:
+    if 'usernameProducent' in session:
 
         if other.verifyProducent(session['telnrProducent']) != False:
 
@@ -273,6 +273,15 @@ def producentname(telnr):
         else:
 
             return redirect(url_for('notVerified'))
+    
+    elif 'usernameKonsument' in session:
+
+        listWithProducent = other.getProducentInfo(telnr)
+
+        if len(listWithProducent) != 0:
+            return render_template("producent.html", listWithProducent=listWithProducent)
+        else:
+            return redirect(url_for('home'))
 
     else:
         return redirect(url_for('login'))

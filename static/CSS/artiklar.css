@@ -272,9 +272,6 @@ nav:hover #first {
     display: flex;
     flex-direction: row;
   }
-  nav:hover #second {
-    display: none;
-  }
   #mobileCenter {
     display: flex;
     justify-content: center;
@@ -282,6 +279,6 @@ nav:hover #first {
     flex-direction: column;
   }
   article:first-child {
-    margin-top: 100px;
+    margin-top: 110px;
   }
 }
