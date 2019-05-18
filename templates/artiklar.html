@@ -11,64 +11,104 @@
   </head>
   <body>
 
+    <nav>
+      <div id="first">
+        <p> F </p>
+        <p> O </p>
+        <p> O </p>
+        <p> D </p>
+        <img id="logo" src="https://i.imgur.com/DhhwB2C.png">
+        <p> T </p>
+        <p> E </p>
+        <p> L </p>
+        <p> L </p>
+      </div>
+
+      <div id="second">
+        <p> FOOD </p>
+        <img id="logo" src="https://i.imgur.com/DhhwB2C.png">
+        <p> TELL </p>
+      </div>
+
+      <a href="home"> HEM </a>
+      <a href="myorders"> ORDERS </a>
+      <a href="articles"> ARTIKLAR </a>
+      <a href="producent"> PRODUCENTER </a>
+
+      {% if producent == True %}
+        <a href="addarticle"> LÄGG TILL EN ARTIKEL </a>
+        <a href="myarticles"> DINA ARTIKLAR </a>
+        <a href="orders"> ALLA ORDERS </a>
+      {% endif %}
+
+      <a href="logout"> LOGGA UT </a>
+    </nav>
+
     {% if checkIfEmpty == 0 %}
 
       <div id="noArticles">
         <h3> INGA ERBJUDANDEN TILLGÄNGLIGA JUST NU </h3>
       </div>
 
+    {% else %}
+
+      <div id="mobileCenter">
+
+        {% for rad in listArticle %}
+
+          <article id="container">
+
+            <div id="over">
+              <p> {{ rad[8] }} </p>
+              <p> Artikel {{ rad[0] }} </p>
+            </div>
+
+            <div id="main">
+              <h3 class="artikelChosen">{{ rad[1] }}</h3>
+              <p class="subtitle">Antal: {{ rad[5] }} st</p>
+              <p id="beskrivning"> {{ rad[2] }} </p>
+              <p onclick="location.reload();" id="pris"> <strike>{{ rad[6] }}kr</strike> {{ rad[7] }}kr </p>
+
+              {% if rad[9] == True %}
+
+                <form onkeydown="return event.key != 'Enter';" action="/myorders" method="POST">
+                  <input class="antalChosen" type="number" name="antal" min="1" step="1" oninput="(validity.valid)||(value='');" max="{{ rad[5] }}" value="1" tabindex="-1" required>
+                  <!-- ANNAT SÄTT ?? -->
+                  <input id="articleID" type="number" name="articleID" value="{{ rad[0] }}">
+                  <!-- ANNAT SÄTT ?? -->
+
+                  <a class="areYouSure"> BESTÄLL </a>
+
+                  <div class="noDisplay">
+                    <h3> Vill du slutföra beställningen? </h3>
+                    <p> Du har valt <span class="antalDisplay"></span>st "<span class="namnDisplay"></span>" </p>
+                    <div id="alternatives">
+                      <a class="back"> TILLBAKA </a>
+                      <input type="submit" value="BESTÄLL">
+                    </div>
+                  </div>
+                </form>
+
+              {% endif %}
+
+              <div id="under">
+                <i class="fa fa-clock-o" aria-hidden="true"></i>
+                <p class="appear"></p>
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+                <p class="date"> {{ rad[3] }} </p>
+                <p class="time"> &nbsp;&nbsp;{{ rad[4] }} </p>
+              </div>
+
+            </div>
+
+          </article>
+
+        {% endfor %}
+
+      </div>
+
     {% endif %}
 
-    {% for rad in listArticle %}
-
-      <article id="container">
-
-        <div id="over">
-          <p> {{ rad[8] }} </p>
-          <p> Artikel {{ rad[0] }} </p>
-        </div>
-
-        <div id="main">
-          <h3 class="artikelChosen">{{ rad[1] }}</h3>
-          <p class="subtitle">Antal: {{ rad[5] }} st</p>
-          <p id="beskrivning"> {{ rad[2] }} </p>
-          <p onclick="location.reload();" id="pris"> <strike>{{ rad[6] }}kr</strike> {{ rad[7] }}kr </p>
-
-          {% if rad[9] == True %}
-
-            <form onkeydown="return event.key != 'Enter';" action="/myorders" method="POST">
-              <input class="antalChosen" type="number" name="antal" min="1" step="1" oninput="(validity.valid)||(value='');" max="{{ rad[5] }}" value="1" tabindex="-1" required>
-              <!-- ANNAT SÄTT ?? -->
-              <input id="articleID" type="number" name="articleID" value="{{ rad[0] }}">
-              <!-- ANNAT SÄTT ?? -->
-
-              <a class="areYouSure"> BESTÄLL </a>
-
-              <div class="noDisplay">
-                <h3> Vill du slutföra beställningen? </h3>
-                <p> Du har valt <span class="antalDisplay"></span>st "<span class="namnDisplay"></span>" </p>
-                <div id="alternatives">
-                  <a class="back"> TILLBAKA </a>
-                  <input type="submit" value="BESTÄLL">
-                </div>
-              </div>
-            </form>
-
-          {% endif %}
-
-          <div id="under">
-            <i class="fa fa-clock-o" aria-hidden="true"></i>
-            <p class="appear"></p>
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-            <p class="date"> {{ rad[3] }} </p>
-            <p class="time"> &nbsp;&nbsp;{{ rad[4] }} </p>
-          </div>
-
-        </div>
-
-      </article>
-
-    {% endfor %}
 
     <script type="text/javascript" src="{{ url_for('static', filename='JS/artiklar.js') }}"></script>
   </body>

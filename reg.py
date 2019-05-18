@@ -78,7 +78,7 @@ def tryRegisterProducent():
     if varTelnr is False:
         encryptedPassword = encrypt.encryptPassword(password)
                 
-        connect.execute("INSERT INTO producent VALUES(%s, %s, %s, %s)", (telnr, email, username, encryptedPassword))
+        connect.execute("INSERT INTO producent VALUES(%s, %s, %s, %s, %s)", (telnr, email, username, encryptedPassword, False))
         db.commit()
 
         connect.execute("INSERT INTO producentadress VALUES(%s, %s)", (telnr, adress))

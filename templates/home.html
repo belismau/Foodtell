@@ -5,8 +5,31 @@
     <title> Home </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/home.css') }}">
+    <script src="https://use.fontawesome.com/8216db457b.js"></script>
   </head>
   <body>
+
+    <nav>
+      <div id="logo">
+        <a href="home"> FOODTELL </a>
+      </div>
+      <div id="nav">
+        <a href="myorders"> DINA BESTÄLLNINGAR </a>
+        <a href="articles"> ARTIKLAR </a>
+        <a href="producent"> PRODUCENTER </a>
+
+        {% if producent == True %}
+          <a href="addarticle"> LÄGG TILL EN ARTIKEL </a>
+          <a href="myarticles"> DINA ARTIKLAR </a>
+          <a href="orders"> ALLA ORDERS </a>
+        {% endif %}
+
+        <a href="logout"> LOGGA UT </a>
+        <div id="account">
+          <i class="fa fa-user-circle" aria-hidden="true"></i>
+        </div>
+      </div>
+    </nav>
 
     <div id="flex">
 
@@ -14,16 +37,7 @@
 
         <h2> Välkommen, {{ username }} </h2>
 
-        {% if producent == True %}
-          <a class="article" href="addarticle"> LÄGG TILL EN ARTIKEL </a>
-          <a class="article" href="myarticles"> DINA ARTIKLAR </a>
-          <a class="article" href="orders"> ALLA ORDERS </a>
-        {% endif %}
-
-        <a class="article" href="myorders"> DINA BESTÄLLNINGAR </a>
-        <a class="article" href="articles"> HITTA ALLA ARTIKLAR HÄR </a>
-        <a class="article" href="producent"> REGISTRERADE PRODUCENTER </a>
-        <a id="logout" href="logout"> LOGGA UT </a> </p>
+        <p> Använd navigationsbaren för att navigera dig runt hemsidan </p>
 
       </div>
 

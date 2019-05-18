@@ -18,16 +18,39 @@ app.secret_key = "1234abcd"
 @app.route("/")
 def index():
 
-    if 'usernameKonsument' in session or 'usernameProducent' in session:
+    if 'usernameProducent' in session:
+
+        if other.verifyProducent(session['telnrProducent']) == True:
+
+            return redirect(url_for('home'))
+        
+        else:
+
+            return redirect(url_for(('notVerified'))) # SKAPA EN HTML FIL
+    
+    elif 'usernameKonsument' in session:
+
         return redirect(url_for('home'))
 
     else:
+
         return render_template("index.html")
 
 @app.route("/register")
 def register():
 
-    if 'usernameKonsument' in session or 'usernameProducent' in session:
+    if 'usernameProducent' in session:
+
+        if other.verifyProducent(session['telnrProducent']) == True:
+
+            return redirect(url_for('home'))
+        
+        else:
+
+            return redirect(url_for(('notVerified')))
+    
+    elif 'usernameKonsument' in session:
+
         return redirect(url_for('home'))
     
     else:
@@ -44,9 +67,15 @@ def home():
     
     elif 'usernameProducent' in session:
 
-        producent = True
+        if other.verifyProducent(session['telnrProducent']) == True:
 
-        return render_template("home.html", username=session['usernameProducent'], producent=producent)
+            producent = True
+
+            return render_template("home.html", username=session['usernameProducent'], producent=producent)
+        
+        else:
+
+            return redirect(url_for('notVerified'))
     
     elif request.method == 'POST':
 
@@ -125,10 +154,22 @@ def home():
 @app.route("/login", methods=['POST', 'GET'])
 def login():
     
-    if 'usernameKonsument' in session:
+    if 'usernameProducent' in session:
+        
+        if other.verifyProducent(session['telnrProducent']) == True:
+
+            return redirect(url_for('home'))
+        
+        else:
+
+            return redirect(url_for(('notVerified')))
+    
+    elif 'usernameKonsument' in session:
+
         return redirect(url_for('home'))
     
     else:
+
         return render_template("login.html")
 
 @app.route("/logout")
@@ -152,7 +193,14 @@ def addarticle():
         return redirect(url_for('home'))
 
     elif 'usernameProducent' in session:
-        return render_template("form.html")
+
+        if other.verifyProducent(session['telnrProducent']) == True:
+
+            return render_template("form.html")
+        
+        else:
+
+            return redirect(url_for('notVerified'))
         
     else:
         return redirect(url_for('login'))
@@ -164,14 +212,21 @@ def articles():
         article.removeArticleTime()
 
         if 'usernameProducent' in session:
-            listArticle = article.presentArticleProducent(session['telnrProducent'])
-            
-            if request.method == 'POST':
-                article.addArticle(session['telnrProducent'])
+
+            if other.verifyProducent(session['telnrProducent']) == True:
+
                 listArticle = article.presentArticleProducent(session['telnrProducent'])
-                return redirect(url_for('articles'))
+                
+                if request.method == 'POST':
+                    article.addArticle(session['telnrProducent'])
+                    listArticle = article.presentArticleProducent(session['telnrProducent'])
+                    return redirect(url_for('articles'))
+                else:
+                    return render_template("artiklar.html", listArticle=listArticle, checkIfEmpty=len(listArticle), username=session['usernameProducent'])
+        
             else:
-                return render_template("artiklar.html", listArticle=listArticle, checkIfEmpty=len(listArticle), username=session['usernameProducent'])
+
+                return redirect(url_for('notVerified'))
         
         else:
             listArticle = article.presentArticleKonsument()
@@ -185,9 +240,13 @@ def producent():
 
     if 'usernameProducent' in session or 'usernameKonsument' in session:
 
-        listWithProducentName = other.getAllProducentName()
+        if other.verifyProducent(session['telnrProducent']) != False:
 
-        return render_template("producentmain.html", listWithProducentName=listWithProducentName)
+            listWithProducentName = other.getAllProducentName()
+            return render_template("producentmain.html", listWithProducentName=listWithProducentName)
+        
+        else:
+            return redirect(url_for('notVerified'))
 
     else:
         return redirect(url_for('login'))
@@ -197,12 +256,18 @@ def producentname(telnr):
 
     if 'usernameProducent' in session or 'usernameKonsument' in session:
 
-        listWithProducent = other.getProducentInfo(telnr)
+        if other.verifyProducent(session['telnrProducent']) != False:
 
-        if len(listWithProducent) != 0:
-            return render_template("producent.html", listWithProducent=listWithProducent)
+            listWithProducent = other.getProducentInfo(telnr)
+
+            if len(listWithProducent) != 0:
+                return render_template("producent.html", listWithProducent=listWithProducent)
+            else:
+                return redirect(url_for('home'))
+        
         else:
-            return redirect(url_for('home'))
+
+            return redirect(url_for('notVerified'))
 
     else:
         return redirect(url_for('login'))
@@ -217,43 +282,64 @@ def notFound(e):
 @app.route("/myarticles", methods=['POST', 'GET'])
 def myArticles():
 
-    if 'usernameProducent' in session or 'usernameKonsument' in session:
+    if 'usernameProducent' in session:
+        
+        if other.verifyProducent(session['telnrProducent']) == True:
+
+            return render_template("producentorders.html")
+        
+        else:
+
+            return redirect(url_for('notVerified'))
+        
+    elif 'usernameKonsument' in session:
+
         return render_template("producentorders.html")
     
     else:
-        redirect(url_for('login'))
+        return redirect(url_for('login'))
 
 @app.route("/myarticles/notexpired", methods=['POST', 'GET'])
 def myArticlesNotExpired():
 
     if 'usernameProducent' in session:
-        article.removeArticleTime()
 
-        producentArticles = article.producentArticles(session['telnrProducent'])
-        return render_template("myarticles2.html", notExpired=producentArticles[0], empty=len(producentArticles[0]))
+        if other.verifyProducent(session['telnrProducent']) == True:
+            article.removeArticleTime()
+
+            producentArticles = article.producentArticles(session['telnrProducent'])
+            return render_template("myarticles2.html", notExpired=producentArticles[0], empty=len(producentArticles[0]))
+        
+        else:
+            return redirect(url_for('notVerified'))
     
     elif 'usernameKonsument' in session:
-        redirect(url_for('home'))
+        return redirect(url_for('home'))
     
     else:
-        redirect(url_for('login'))
+        return redirect(url_for('login'))
 
 @app.route("/myarticles/expired", methods=['POST', 'GET'])
 def myArticlesExpired():
 
     if 'usernameProducent' in session:
-        article.removeArticleTime()
 
-        producentArticles = article.producentArticles(session['telnrProducent'])
-        return render_template("myarticles1.html", Expired=producentArticles[1], empty=len(producentArticles[1]))
+        if other.verifyProducent(session['telnrProducent']) == True:
+            article.removeArticleTime()
+
+            producentArticles = article.producentArticles(session['telnrProducent'])
+            return render_template("myarticles1.html", Expired=producentArticles[1], empty=len(producentArticles[1]))
+        
+        else:
+            return redirect(url_for('notVerified'))
     
     elif 'usernameKonsument' in session:
-        redirect(url_for('home'))
+        return redirect(url_for('home'))
     
     else:
-        redirect(url_for('login'))
+        return redirect(url_for('login'))
 
-@app.route("/myorders", methods=['POST', 'GET'])
+@app.route("/myorders", methods=['POST', 'GET']) ######################
 def myorders():
 
     if 'usernameProducent' in session or 'usernameKonsument' in session:
@@ -282,9 +368,15 @@ def myorders():
             
             if 'usernameProducent' in session:
 
-                listWithOrder = buyArticle.orders(session['telnrProducent'], session['usernameProducent'])
+                if other.verifyProducent(session['telnrProducent']) == True:
 
-                return render_template("myorders.html", listWithOrder=listWithOrder, empty=len(listWithOrder))
+                    listWithOrder = buyArticle.orders(session['telnrProducent'], session['usernameProducent'])
+
+                    return render_template("myorders.html", listWithOrder=listWithOrder, empty=len(listWithOrder))
+                
+                else:
+
+                    return redirect(url_for('notVerified'))
             
         
             else:
@@ -294,50 +386,74 @@ def myorders():
                 return render_template("myorders.html", listWithOrder=listWithOrder)
 
     else:
-        redirect(url_for('login'))
+        return redirect(url_for('login'))
 
 @app.route("/orders", methods=['POST', 'GET'])
 def orders():
 
     if 'usernameKonsument' in session:
-        redirect(url_for('home'))
+        return redirect(url_for('home'))
 
     elif 'usernameProducent' in session:
 
-        listWithOrder = buyArticle.producentOrders(session['telnrProducent'])
+        if other.verifyProducent(session['telnrProducent']) == True:
 
-        return render_template("manageorder.html", listWithOrder=listWithOrder, producent=True, lenOrder=len(listWithOrder))
+            listWithOrder = buyArticle.producentOrders(session['telnrProducent'])
+
+            return render_template("manageorder.html", listWithOrder=listWithOrder, producent=True, lenOrder=len(listWithOrder))
+        
+        else:
+
+            return redirect(url_for('notVerified'))
     
     else:
-        redirect(url_for('login'))
+        return redirect(url_for('login'))
 
 @app.route("/removeorder", methods=['POST', 'GET'])
 def removeorder():
 
     if 'usernameProducent' in session:
 
-        if request.method == 'POST':
+        if other.verifyProducent(session['telnrProducent']) == True:
 
-            buyArticle.removeOrder()
+            if request.method == 'POST':
 
-            return redirect(url_for('home'))
+                buyArticle.removeOrder()
+
+                return redirect(url_for('home'))
+            
+            else:
+                return redirect(url_for('home'))
         
         else:
-            redirect(url_for('home'))
-    
+            return redirect(url_for('notVerified'))
+
     elif 'usernameKonsument' in session:
-        redirect(url_for('home'))
+        return redirect(url_for('home'))
 
     else:
-        redirect(url_for('login'))
+        return redirect(url_for('login'))
 
-@app.route("/test")
-def test():
+@app.route("/notverified", methods=['GET'])
+def notVerified():
 
-    QRcode = pyqrcode.create('hello')
-    QRcode.png('hello.png', scale=7)
+    if 'usernameKonsument' in session:
 
-    return QRcode
+        return redirect(url_for('home'))
+
+    elif 'usernameProducent' in session:
+
+        if other.verifyProducent(session['telnrProducent']) == False:
+
+            return render_template("notVerified.html", username=session['usernameProducent'])
+        
+        else:
+
+            return redirect(url_for('home'))
+    
+    else:
+
+        return redirect(url_for('login'))
 
 if __name__ == '__main__':
-    app.run(host='foodtell1.herokuapp.com')
+    app.run(debug=True)

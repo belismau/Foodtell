@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="sv">
+  <head>
+    <meta charset="utf-8">
+    <title> Home </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/notVerified.css') }}">
+    <script src="https://use.fontawesome.com/8216db457b.js"></script>
+  </head>
+  <body>
+
+    <div id="flex">
+
+      <div id="containerAll">
+
+        <h2> Välkommen, {{ username }} </h2>
+
+        <p> Ditt producent-konto är under granskning. Detta tar vanligen 24 timmar. Efter denna tid kommer kontot att låsas upp och kunna användas om kontot accepteras av Foodtell. </p>
+
+        <img src="https://loading.io/spinners/typing/lg.-text-entering-comment-loader.gif">
+
+        <a href="logout"> LOGGA UT </a>
+
+      </div>
+
+    </div>
+
+  </body>
+</html>

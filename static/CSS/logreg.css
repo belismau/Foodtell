@@ -39,10 +39,6 @@ p {
   color: red;
 }
 
-.containerKonsument {
-  width: 100%;
-}
-
 #containerAll {
   display: flex;
   align-items: center;
