@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="sv">
+  <head>
+    <meta charset="utf-8">
+    <title> Foodtell </title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/foodtell.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <body>
+
+    <div id="space"></div>
+
+    <nav>
+      <div id="first">
+        <p> F </p>
+        <p> O </p>
+        <p> O </p>
+        <p> D </p>
+        <img id="logo" src="https://i.imgur.com/DhhwB2C.png">
+        <p> T </p>
+        <p> E </p>
+        <p> L </p>
+        <p> L </p>
+      </div>
+
+      <div id="second">
+        <p> FOOD </p>
+        <img id="logo" src="https://i.imgur.com/DhhwB2C.png">
+        <p> TELL </p>
+      </div>
+
+      <a href="foodtell"> HEM </a>
+      <a href="logout"> LOGGA UT </a>
+    </nav>
+
+    <h2> Verifierade Producenter </h2>
+
+    <div class="tablediv">
+
+      <table>
+
+        <tr>
+            <th> Företagsnamn </th>
+            <th> E-mail </th>
+            <th> Nummer </th>
+            <th> Avverifiera </th>
+        </tr>
+
+        {% for i in listVerified %}
+
+          <tr>
+            <td> {{ i[2] }} </td>
+            <td> {{ i[1] }} </td>
+            <td> {{ i[0] }} </td>
+            <form action="/foodtell" method="POST">
+              <input class="namn" type="text" name="telnr" value="{{ i[0] }}">
+              <td> <input type="submit" name="avverifiera" value="Avverifiera kontot"> </td>
+            </form>
+          </tr>
+
+        {% endfor %}
+
+      </table>
+
+    </div>
+
+    <h2> EJ Verifierade Producenter </h2>
+
+    <div class="tablediv">
+
+      <table>
+
+        <tr>
+            <th> Företagsnamn </th>
+            <th> E-mail </th>
+            <th> Nummer </th>
+            <th> Verifiera </th>
+        </tr>
+
+        {% for i in listNotVerified %}
+
+          <tr>
+            <td> {{ i[2] }} </td>
+            <td> {{ i[1] }} </td>
+            <td> {{ i[0] }} </td>
+            <form action="/foodtell" method="POST">
+              <input class="namn" type="text" name="telnr" value="{{ i[0] }}">
+              <td> <input type="submit" name="verifiera" value="Verifiera kontot"> </td>
+            </form>
+          </tr>
+
+        {% endfor %}
+
+      </table>
+
+    </div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='JS/foodtell.js') }}"></script>
+  </body>
+</html>

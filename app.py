@@ -139,14 +139,25 @@ def home():
                 return redirect(url_for('login'))
             
             elif isinstance(tryLogin, (list,)):
-                session['telnrProducent'] = tryLogin[0]
-                session['emailProducent'] = tryLogin[1]
-                session['usernameProducent'] = tryLogin[2]
-                return redirect(url_for('home'))
+
+                    if len(tryLogin) == 3: # Om det är annan producent än Foodtell
+                        session['telnrProducent'] = tryLogin[0]
+                        session['emailProducent'] = tryLogin[1]
+                        session['usernameProducent'] = tryLogin[2]
+                        return redirect(url_for('home'))
+                    else:
+                        session['telnrFoodtell'] = tryLogin[0]
+                        session['emailFoodtell'] = tryLogin[1]
+                        session['usernameFoodtell'] = tryLogin[2]
+                        return redirect(url_for('foodtell'))
             
             else:
                 flash('INVALID DETAILS', 'error')
                 return redirect(url_for('login'))
+    
+    elif 'usernameFoodtell' in session:
+
+        return redirect(url_for('foodtell'))
 
     else:
         return redirect(url_for('login'))
@@ -181,6 +192,10 @@ def logout():
     
     elif 'usernameProducent' in session:
         session.pop('usernameProducent', None)
+        return redirect(url_for('index'))
+    
+    elif 'usernameFoodtell' in session:
+        session.pop('usernameFoodtell', None)
         return redirect(url_for('index'))
     
     else:
@@ -288,7 +303,7 @@ def producentname(telnr):
 
 @app.errorhandler(404)
 def notFound(e):
-    if 'usernameKonsument' in session or 'usernameProducent' in session:
+    if 'usernameKonsument' in session or 'usernameProducent' in session or 'usernameFoodtell':
         return redirect(url_for('home'))
     else:
         return redirect(url_for('index'))
@@ -461,13 +476,44 @@ def notVerified():
 
             return render_template("notVerified.html", username=session['usernameProducent'])
         
-        else:
+        elif other.verifyProducent(session['telnrProducent']) == True:
 
             return redirect(url_for('home'))
-    
+        
+        else:
+
+            return redirect(url_for('foodtell'))
+
     else:
 
         return redirect(url_for('login'))
+
+@app.route("/foodtell", methods=['GET', 'POST'])
+def foodtell():
+
+    if 'usernameFoodtell' in session:
+
+        if request.method == 'GET':
+
+            verified = other.foodtellVerified()
+
+            return render_template("foodtell.html", username=session['usernameFoodtell'], listVerified=verified[0], listNotVerified=verified[1])
+        
+        else:
+
+            if request.form.get('avverifiera') == "Avverifiera kontot":
+
+                other.avverifiera()
+            
+            else:
+
+                other.verifiera()
+            
+            return redirect(url_for('foodtell'))
+        
+    else:
+
+        return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -199,6 +199,22 @@ nav > a {
   display: none;
   white-space: nowrap;
   margin: 20px;
+  overflow: hidden;
+}
+
+nav > a:after {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+  height: 2px;
+  background-color: white;
+  content: "";
+  transform: translate3d(-110%, 0, 0);
+  transition: transform 0.5s cubic-bezier(0.21, 0.7, 0, 1);
+}
+
+nav > a:hover:after {
+  transform: translate3d(0, 0, 0);
 }
 
 #first, #second {
@@ -228,12 +244,13 @@ nav {
   flex-direction: column;
   position: fixed;
   right: 0;
-  width: 100px;
+  width: 140px;
   height: 100vh;
   background: #e74c3c;
   box-shadow: 0px 3px 15px rgba(50, 50, 50, .7);
   padding: 20px;
   transition: 0.3s;
+  box-sizing: border-box;
 }
 
 nav:hover {

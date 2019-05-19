@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css?family=Sanchez');
+
+body {
+  background: #f2f2f2;
+  font-family: 'Sanchez', serif;
+  margin: 0;
+}
+
+.tablediv {
+  overflow-x: auto;
+  margin: 20px 20px 40px 20px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 700px;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 12px;
+}
+
+tr:nth-child(even) {
+  background: #dddddd;
+}
+
+.namn {
+  display: none;
+}
+
+input[type=submit] {
+  font-family: 'Sanchez', serif;
+  font-size: 13px;
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
+}
+
+#space {
+  display: none;
+  margin-bottom: 130px;
+}
+
+
+/* NAVIGATION */
+
+
+nav > a {
+  text-decoration: none;
+  color: white;
+  display: none;
+  white-space: nowrap;
+  margin: 20px;
+  overflow: hidden;
+}
+
+p {
+  margin: 0;
+}
+
+h2 {
+  margin: 20px 20px 0 20px;
+}
+
+nav > a:after {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+  height: 2px;
+  background-color: white;
+  content: "";
+  transform: translate3d(-110%, 0, 0);
+  transition: transform 0.5s cubic-bezier(0.21, 0.7, 0, 1);
+}
+
+nav > a:hover:after {
+  transform: translate3d(0, 0, 0);
+}
+
+#first, #second {
+  color: white;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  transition: 0.3s;
+}
+
+#second {
+  display: none;
+}
+
+img {
+  width: 50px;
+  height: 50px;
+  margin: 20px;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 140px;
+  height: 100vh;
+  background: #e74c3c;
+  box-shadow: 0px 3px 15px rgba(50, 50, 50, .7);
+  padding: 20px;
+  transition: 0.3s;
+  box-sizing: border-box;
+}
+
+nav:hover {
+  width: 500px;
+}
+
+nav:hover a {
+  display: block;
+}
+
+nav:hover #first {
+  display: none;
+}
+
+@media screen and (max-width: 640px) {
+  #space {
+    display: block;
+  }
+  nav {
+    width: 100%;
+    box-sizing: border-box;
+    height: auto;
+    padding: 0;
+    transition: 0.3s;
+  }
+  #first {
+    display: none;
+    height: 500px;
+  }
+  #logo {
+    display: inline;
+  }
+  nav:hover {
+    height: auto;
+    width: 100%;
+    padding: 20px;
+  }
+  #second {
+    display: flex;
+    flex-direction: row;
+  }
+}

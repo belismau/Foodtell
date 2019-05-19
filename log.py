@@ -44,7 +44,6 @@ def tryLoginProducent():
     varTelnr = None
 
     for i in connect:
-        namn = i[1]
         varTelnr = i[0]
         decryptedPassword = encrypt.checkEncryptedPassword(password, i[2])
     
@@ -52,7 +51,12 @@ def tryLoginProducent():
         return 'Invalid'
                 
     elif varTelnr == telnr and decryptedPassword is True:
-        listMessage = other.sessionsForProducent(telnr)
+
+        if varTelnr == "Foodtell":
+            listMessage = other.sessionsForFoodtell(telnr)
+        else:
+            listMessage = other.sessionsForProducent(telnr)
+        
         return listMessage
                 
     else:
