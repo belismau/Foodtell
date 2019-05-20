@@ -144,6 +144,31 @@ def verifiera():
     connect.execute("UPDATE producent SET verified = True WHERE telnr = %s", (telnr,))
     db.commit()
 
+def allKonsument():
 
+    db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
+    connect = db.cursor()
+
+    connect.execute("SELECT konsument.email, fnamn, enamn, telnr FROM konsument JOIN konsumenttelnr ON konsument.email = konsumenttelnr.email")
+
+    listKonsuments = []
+
+    for i in connect:
+        listKonsuments.append([i[0], i[1], i[2], i[3]])
+    
+    return listKonsuments
+
+def removeKonsument():
+
+    email = request.form['email']
+
+    db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
+    connect = db.cursor()
+
+    connect.execute("DELETE FROM konsumenttelnr WHERE email = %s", (email,))
+    db.commit()
+
+    connect.execute("DELETE FROM konsument WHERE email = %s", (email,))
+    db.commit()
 
 

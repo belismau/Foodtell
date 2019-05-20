@@ -496,8 +496,9 @@ def foodtell():
         if request.method == 'GET':
 
             verified = other.foodtellVerified()
+            konsuments = other.allKonsument()
 
-            return render_template("foodtell.html", username=session['usernameFoodtell'], listVerified=verified[0], listNotVerified=verified[1])
+            return render_template("foodtell.html", username=session['usernameFoodtell'], listVerified=verified[0], listNotVerified=verified[1], konsuments=konsuments)
         
         else:
 
@@ -505,9 +506,16 @@ def foodtell():
 
                 other.avverifiera()
             
-            else:
+            elif request.form.get('verifiera') == "Verifiera kontot":
 
                 other.verifiera()
+            
+            elif request.form.get('remove') == "Ta bort konto":
+
+                other.removeKonsument()
+
+            else:
+                pass
             
             return redirect(url_for('foodtell'))
         

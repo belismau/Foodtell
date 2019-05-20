@@ -30,11 +30,13 @@
         <p> TELL </p>
       </div>
 
-      <a href="foodtell"> HEM </a>
+      <a href="#vProducenter"> VERIFIERADE PRODUCENTER </a>
+      <a href="#EJvProducenter"> EJ VERIFIERADE PRODUCENTER </a>
+      <a href="#konsumenter"> ALLA KONSUMENTER </a>
       <a href="logout"> LOGGA UT </a>
     </nav>
 
-    <h2> Verifierade Producenter </h2>
+    <h2 id="vProducenter"> Verifierade Producenter </h2>
 
     <div class="tablediv">
 
@@ -65,7 +67,7 @@
 
     </div>
 
-    <h2> EJ Verifierade Producenter </h2>
+    <h2 id="EJvProducenter"> EJ Verifierade Producenter </h2>
 
     <div class="tablediv">
 
@@ -87,6 +89,39 @@
             <form action="/foodtell" method="POST">
               <input class="namn" type="text" name="telnr" value="{{ i[0] }}">
               <td> <input type="submit" name="verifiera" value="Verifiera kontot"> </td>
+            </form>
+          </tr>
+
+        {% endfor %}
+
+      </table>
+
+    </div>
+
+    <h2 id="konsumenter"> Konsumenter </h2>
+
+    <div class="tablediv">
+
+      <table>
+
+        <tr>
+            <th> E-mail </th>
+            <th> Förnamn </th>
+            <th> Efternamn </th>
+            <th> Telefonnummer </th>
+            <th> Ta bort </th>
+        </tr>
+
+        {% for i in konsuments %}
+
+          <tr>
+            <td> {{ i[0] }} </td>
+            <td> {{ i[1] }} </td>
+            <td> {{ i[2] }} </td>
+            <td> {{ i[3] }} </td>
+            <form action="/foodtell" method="POST">
+              <input class="namn" type="text" name="email" value="{{ i[0] }}">
+              <td> <input type="submit" name="remove" value="Ta bort konto"> </td>
             </form>
           </tr>
 
