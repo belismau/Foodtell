@@ -497,22 +497,27 @@ def foodtell():
 
             verified = other.foodtellVerified()
             konsuments = other.allKonsument()
+            artiklar = other.allArtiklar()
 
-            return render_template("foodtell.html", username=session['usernameFoodtell'], listVerified=verified[0], listNotVerified=verified[1], konsuments=konsuments)
+            return render_template("foodtell.html", username=session['usernameFoodtell'], listVerified=verified[0], listNotVerified=verified[1], konsuments=konsuments, artiklar=artiklar)
         
         else:
 
-            if request.form.get('avverifiera') == "Avverifiera kontot":
+            if request.form.get('avverifiera') == "Avverifiera konto":
 
                 other.avverifiera()
             
-            elif request.form.get('verifiera') == "Verifiera kontot":
+            elif request.form.get('verifiera') == "Verifiera konto":
 
                 other.verifiera()
             
             elif request.form.get('remove') == "Ta bort konto":
 
                 other.removeKonsument()
+            
+            elif request.form.get('remove') == "Ta bort artikel":
+
+                other.removeArtikelFoodtell()
 
             else:
                 pass

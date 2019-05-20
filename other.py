@@ -171,4 +171,30 @@ def removeKonsument():
     connect.execute("DELETE FROM konsument WHERE email = %s", (email,))
     db.commit()
 
+def allArtiklar():
+    
+    db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
+    connect = db.cursor()
+
+    connect.execute("SELECT * FROM artikel ORDER BY id DESC")
+
+    listArtiklar = []
+
+    for i in connect:
+        listArtiklar.append([i[0], i[1], i[2], i[3], i[8], i[9]])
+    
+    return listArtiklar
+
+def removeArtikelFoodtell():
+
+    artikelid = request.form['artikelid']
+
+    db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
+    connect = db.cursor()
+
+    connect.execute("DELETE FROM artikel WHERE id = %s", (artikelid,))
+    db.commit()
+
+
+
 

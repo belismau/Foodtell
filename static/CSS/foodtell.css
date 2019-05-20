@@ -16,6 +16,10 @@ table {
   width: 700px;
 }
 
+#articleTable {
+  width: 900px;
+}
+
 td, th {
   border: 1px solid #dddddd;
   text-align: left;
@@ -46,6 +50,10 @@ input[type=submit] {
   margin-bottom: 130px;
 }
 
+#beskrivning {
+  font-size: 13px;
+}
+
 
 /* NAVIGATION */
 
@@ -58,6 +66,7 @@ nav > a {
   margin: 20px;
   overflow: hidden;
   font-size: 13px;
+  text-transform: uppercase;
 }
 
 p {
