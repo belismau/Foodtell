@@ -1,41 +1,59 @@
 @import url('https://fonts.googleapis.com/css?family=Kanit');
+@import url('https://fonts.googleapis.com/css?family=Righteous&display=swap');
 
 body {
-  font-family: 'Kanit', sans-serif;
-  color: #e74c3c;
+  font-family: 'Righteous', cursive;
+  background: #e74c3c;
   margin: 0;
 }
 
-#flex {
+#container {
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  height: 100vh;
-  background: #f2f2f2;
-  width: 100%;
-  margin: 0;
 }
 
-#flex > div {
-  display: flex;
-  flex-direction: row;
-  width: auto;
+h2 {
+  text-align: center;
+  color: white;
 }
 
 a {
   padding: 20px 40px 20px 40px;
-  background: #e74c3c;
-  color: white;
+  background: white;
+  color: #e74c3c;
   text-decoration: none;
-  margin: 0;
+  margin: 10px;
   text-align: center;
   box-shadow: 0 5px 5px rgba(0,0,0,0.10), 0 5px 5px rgba(0,0,0,0.22);
   transition: 0.3s;
-  width: 150px;
+  display: block;
+  width: 180px;
 }
 
-a:hover {
+hr {
+  width: 500px;
   background: white;
-  color: #e74c3c;
+  color: white;
+}
+
+#second {
+  margin: 0 30px 0 30px;
+  color: white;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  transition: 0.3s;
+}
+
+#logo {
+  box-shadow: 0 5px 5px rgba(0,0,0,0.10), 0 5px 5px rgba(0,0,0,0.22);
+  border-radius: 50px;
+  width: 70px;
+  height: 70px;
+  margin: 20px;
 }
