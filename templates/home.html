@@ -10,38 +10,24 @@
   <body>
 
     <nav>
-      <div id="logo">
-        <a href="home"> FOODTELL </a>
+      <div id="second">
+        <p> FOOD </p>
+        <img id="logo" src="https://i.imgur.com/DhhwB2C.png">
+        <p> TELL </p>
       </div>
-      <div id="nav">
-        <a href="myorders"> DINA BESTÄLLNINGAR </a>
-        <a href="articles"> ARTIKLAR </a>
-        <a href="producent"> PRODUCENTER </a>
 
-        {% if producent == True %}
-          <a href="addarticle"> LÄGG TILL EN ARTIKEL </a>
-          <a href="myarticles"> DINA ARTIKLAR </a>
-          <a href="orders"> ALLA ORDERS </a>
-        {% endif %}
+      <a href="myorders"> SE DINA ORDERS </a>
+      <a href="articles"> VISA ALLA ARTIKLAR </a>
+      <a href="producent"> VISA PRODUCENTER </a>
 
-        <a href="logout"> LOGGA UT </a>
-        <div id="account">
-          <i class="fa fa-user-circle" aria-hidden="true"></i>
-        </div>
-      </div>
+      {% if producent == True %}
+        <a href="addarticle"> LÄGG TILL EN ARTIKEL </a>
+        <a href="myarticles"> DINA ARTIKLAR </a>
+        <a href="orders"> ALLA ORDERS </a>
+      {% endif %}
+
+      <a href="logout"> LOGGA UT </a>
     </nav>
-
-    <div id="flex">
-
-      <div id="containerAll">
-
-        <h2> Välkommen, {{ username }} </h2>
-
-        <p> Använd navigationsbaren för att navigera dig runt hemsidan </p>
-
-      </div>
-
-    </div>
 
   </body>
 </html>

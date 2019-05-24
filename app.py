@@ -79,7 +79,7 @@ def home():
     
     elif request.method == 'POST':
 
-        if request.form.get('registerKonsument') == "REGISTER":
+        if request.form.get('registerKonsument') == "REGISTRERA":
 
             tryRegister = reg.tryRegisterKonsument()
 
@@ -100,7 +100,7 @@ def home():
                 session['emailKonsument'] = tryRegister[0]
                 return redirect(url_for('home'))
         
-        elif request.form.get('registerProducent') == "REGISTER":
+        elif request.form.get('registerProducent') == "REGISTRERA":
 
             tryRegister = reg.tryRegisterProducent()
 
@@ -113,7 +113,7 @@ def home():
                 session['usernameProducent'] = tryRegister[2]
                 return redirect(url_for('home'))
 
-        elif request.form.get('loginKonsument') == "LOGIN":
+        elif request.form.get('loginKonsument') == "LOGGA IN":
 
             tryLogin = log.tryLoginKonsument()
 
