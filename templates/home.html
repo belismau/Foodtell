@@ -20,7 +20,10 @@
 
       <a href="myorders"> SE DINA ORDERS </a>
       <a href="articles"> VISA ALLA ARTIKLAR </a>
+
+      {% if producent != True %}
       <a href="producent"> VISA PRODUCENTER </a>
+      {% endif %}
 
       {% if producent == True %}
         <a href="addarticle"> LÄGG TILL EN ARTIKEL </a>

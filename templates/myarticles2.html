@@ -10,6 +10,41 @@
   </head>
   <body>
 
+    <nav>
+      <div id="first">
+        <p> F </p>
+        <p> O </p>
+        <p> O </p>
+        <p> D </p>
+        <img id="logo" src="https://i.imgur.com/DhhwB2C.png">
+        <p> T </p>
+        <p> E </p>
+        <p> L </p>
+        <p> L </p>
+      </div>
+
+      <div id="second">
+        <p> FOOD </p>
+        <img id="logo" src="https://i.imgur.com/DhhwB2C.png">
+        <p> TELL </p>
+      </div>
+
+      <a href="home"> HEM </a>
+      <a href="myorders"> ORDERS </a>
+      <a href="articles"> ARTIKLAR </a>
+      <a href="producent"> PRODUCENTER </a>
+
+      {% if producent == True %}
+        <a href="addarticle"> LÄGG TILL EN ARTIKEL </a>
+        <a href="myarticles"> DINA ARTIKLAR </a>
+        <a href="orders"> ALLA ORDERS </a>
+      {% endif %}
+
+      <a href="logout"> LOGGA UT </a>
+    </nav>
+
+    <div id="space"></div>
+
     {% if empty == 0 %}
 
       <h2> Du har inga tillgängliga artiklar </h2>
@@ -49,6 +84,6 @@
     {% endif %}
 
     <script type="text/javascript" src="{{ url_for('static', filename='JS/artiklar.js') }}"></script>
-    
+
   </body>
 </html>
