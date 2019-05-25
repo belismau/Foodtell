@@ -107,10 +107,21 @@ def sendEmail(byer, kvitto):
     db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
     connect = db.cursor()
 
-    connect.execute("SELECT fnamn, enamn FROM konsument WHERE email = %s", (byer,))
+    connect.execute("SELECT fnamn, enamn, email FROM konsument WHERE email = %s", (byer,))
+
+    byerName = None
 
     for i in connect:
         byerName = i[0] + " " + i[1]
+        email = i[2]
+    
+    if byerName == None:
+    
+        connect.execute("SELECT namn, email FROM producent WHERE telnr = %s", (byer,))
+
+        for i in connect:
+            byerName = i[0]
+            email = i[1]
     
     connect.execute("SELECT namn, nuvpris FROM artikel WHERE expired = False")
 
@@ -119,7 +130,7 @@ def sendEmail(byer, kvitto):
         listWithArticles.append([i[0], i[1]])
 
     me = "FoodtellMAU@gmail.com"
-    you = "FoodtellMAU@gmail.com"
+    you = email
     subject = 'Köp från Foodtell'
 
     # Create message container - the correct MIME type is multipart/alternative.
@@ -129,7 +140,7 @@ def sendEmail(byer, kvitto):
     msg['To'] = you
 
     # Create the body of the message (a plain-text and an HTML version).
-    text = "Något"
+    text = "Här kommer en bekräftelse på att du beställt en order från Foodtell"
 
     rows = ""
     for i in listWithArticles:
@@ -263,7 +274,7 @@ def sendEmail(byer, kvitto):
                 </tr>
 
                 <tr>
-                    <td style="background: black; color: #ffffff; font-family: courier; padding: 0 90px 70px 90px; font-size: 25px; line-height: 46px; text-transform: uppercase; text-align: center;"> <a style="color: #e85853;" href="www.foodtell.com"> www.foodtell.com </a> </td>
+                    <td style="background: black; color: #ffffff; font-family: courier; padding: 0 90px 70px 90px; font-size: 25px; line-height: 46px; text-transform: uppercase; text-align: center;"> <a style="color: #e85853;" href="foodtell1.herokuapp.com"> Foodtell </a> </td>
                 </tr>
 
                 <tr border="0">
