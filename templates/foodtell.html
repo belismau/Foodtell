@@ -145,6 +145,7 @@
             <th> Beskrivning </th>
             <th> Pris </th>
             <th> Expired </th>
+            <th> Ändra </th>
         </tr>
 
         {% for i in artiklar %}
@@ -156,6 +157,10 @@
             <td id="beskrivning"> {{ i[3] }} </td>
             <td> {{ i[4] }} </td>
             <td> {{ i[5] }} </td>
+            <form action="/foodtell" method="POST">
+              <input class="namn" type="text" name="artikelid" value="{{ i[0] }}">
+              <td> <input type="submit" name="remove" value="Ta bort / Lägg till"> </td>
+            </form>
           </tr>
 
         {% endfor %}

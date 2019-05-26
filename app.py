@@ -515,7 +515,7 @@ def foodtell():
 
                 other.removeKonsument()
             
-            elif request.form.get('remove') == "Ta bort artikel":
+            elif request.form.get('remove') == "Ta bort / Lägg till":
 
                 other.removeArtikelFoodtell()
 

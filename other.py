@@ -192,8 +192,22 @@ def removeArtikelFoodtell():
     db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
     connect = db.cursor()
 
-    connect.execute("DELETE FROM artikel WHERE id = %s", (artikelid,))
-    db.commit()
+    connect.execute("SELECT expired FROM artikel where id = %s", (artikelid,))
+    for i in connect:
+        expired = i[0]
+    
+    if expired == True:
+        
+        connect.execute("UPDATE artikel SET expired = False WHERE id = %s", (artikelid,))
+        db.commit()
+    
+    elif expired == False:
+
+        connect.execute("UPDATE artikel SET expired = True WHERE id = %s", (artikelid,))
+        db.commit()
+    
+    else:
+        pass
 
 
 
