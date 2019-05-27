@@ -20,14 +20,14 @@ body {
   cursor: default;
 }
 
-span {
+#info {
   opacity: 0;
   pointer-events: none;
   position: absolute;
   top: 40px;
   right: 40px;
-  padding: 20px;
-  margin-left: 40px;
+  padding: 23px;
+  margin: 0 0 0 40px;
   max-width: 400px;
   background: white;
   border-radius: 5px;
@@ -35,9 +35,10 @@ span {
   color: #e74c3c;
   font-size: 13px;
   transition: 0.3s ease;
+  line-height: 18px;
 }
 
-#questiondiv:hover span {
+#questiondiv:hover #info {
   opacity: 1;
   transition: 0.3s ease;
 }
