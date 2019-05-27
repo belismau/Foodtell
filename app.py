@@ -1,4 +1,4 @@
-#coding=utf-8
+#coding=utf-8 
 
 from flask import Flask, render_template, request, session, logging, url_for, redirect, flash
 import psycopg2
