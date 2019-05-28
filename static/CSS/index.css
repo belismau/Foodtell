@@ -1,95 +1,154 @@
-@import url('https://fonts.googleapis.com/css?family=Righteous&display=swap');
-
-body {
-  font-family: 'Righteous', cursive;
-  background: #e74c3c;
-  margin: 0;
+body{
+    color: #FFFFFF;
+    margin: 0;
+    background-color: #FFFFFF;
+    background-size: cover; 
+    background-repeat: no-repeat;
 }
-
-#question {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  color: #e74c3c;
-  margin: 0;
-  background: white;
-  border-radius: 100%;
-  padding: 10px 13px 10px 13px;
-  box-shadow: 0 5px 5px rgba(0,0,0,0.10), 0 5px 5px rgba(0,0,0,0.22);
-  z-index: 2;
-  cursor: default;
+.navbar2{
+    display: none;
 }
-
-#info {
-  opacity: 0;
-  pointer-events: none;
-  position: absolute;
-  top: 40px;
-  right: 40px;
-  padding: 23px;
-  margin: 0 0 0 40px;
-  max-width: 400px;
-  background: white;
-  border-radius: 5px;
-  box-shadow: 0 5px 5px rgba(0,0,0,0.10), 0 5px 5px rgba(0,0,0,0.22);
-  color: #e74c3c;
-  font-size: 13px;
-  transition: 0.3s ease;
-  line-height: 18px;
+.navbar {
+    overflow: hidden;
+    background-color: #e73c3c;
+    font-family: Arial;
+    text-align: center;
+  }
+  
+  /* Links inside the navbar */
+  .navbar a {
+    float: left;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  /* The dropdown container */
+  .dropdown {
+    float: left;
+    overflow: hidden;
+  }
+  
+  /* Dropdown button */
+  .dropdown .dropbtn {
+    font-size: 16px; 
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit; /* Important for vertical align on mobile phones */
+    margin: 0; /* Important for vertical align on mobile phones */
+  }
+  
+  /* Add a red background color to navbar links on hover */
+  .navbar a:hover, .dropdown:hover .dropbtn {
+    background-color: red;
+  }
+  
+  /* Dropdown content (hidden by default) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+  
+  /* Add a grey background color to dropdown links on hover */
+  .dropdown-content a:hover {
+    background-color: #ddd;
+  }
+  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  .mainpart{
+      text-align: center;
+      color: black; 
+  }
+  #logo{
+    width: 80%;
 }
-
-#questiondiv:hover #info {
-  opacity: 1;
-  transition: 0.3s ease;
+#beskrivning{
+  padding: 2%;
 }
-
-#container {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  #footer{
+      text-align: center;
+      color: black;
+      margin: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+  }
+  @media screen and (min-width:480px) {
+    .navbar {
+        overflow: hidden;
+        background-color: #e73c3c;
+        font-family: Arial;
+        text-align: center;
+        display: grid;
+        grid-template-columns: 25% 25% 25% 25%;
+      }
+      #logo{
+        width: 50%;
+      }
+      #kontoknapp{
+        border-radius: 50%;
+        -webkit-transition-duration: 0.4s; /* Safari */
+        transition-duration: 0.4s;
+        font-size: 24px;
+        padding: 16px;
+      }
 }
-
-h2 {
-  text-align: center;
-  color: white;
-}
-
-a {
-  padding: 20px 40px 20px 40px;
-  background: white;
-  color: #e74c3c;
-  text-decoration: none;
-  margin: 10px;
-  text-align: center;
-  box-shadow: 0 5px 5px rgba(0,0,0,0.10), 0 5px 5px rgba(0,0,0,0.22);
-  transition: 0.3s;
-  display: block;
-  width: 180px;
-}
-
-hr {
-  width: 500px;
-  background: white;
-  color: white;
-}
-
-#second {
-  margin: 0 30px 0 30px;
-  color: white;
-  font-size: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  transition: 0.3s;
-}
-
-#logo {
-  box-shadow: 0 5px 5px rgba(0,0,0,0.10), 0 5px 5px rgba(0,0,0,0.22);
-  border-radius: 50px;
-  width: 70px;
-  height: 70px;
-  margin: 20px;
+@media screen and (min-width:1000px) {
+    .navbar {
+       display: none;
+      }
+      .navbar2{
+        overflow: hidden;
+        background-color: #e73c3c;
+        font-family: Arial;
+        text-align: center;
+        display: grid;
+        grid-template-columns: 25% 25% 25% 25%;
+      }
+      .Navlink{
+        color: #FFFFFF;
+        text-decoration: none;
+        text-align: center;
+        padding-left: 5%;
+        font-family: 'Fugaz One', cursive;
+        padding-top: 3%;
+        padding-bottom: 3%;
+    }
+    .Navlink:hover{
+        color: #FFFFFF;
+        text-decoration: none;
+        text-align: center;
+        padding-left: 5%;
+        font-family: 'Fugaz One', cursive;
+        font-size: 130%;
+      }
+      #logo{
+        width: 30%}
+      #h1h{
+        margin: 0;
+        padding: 20px;
+        font-size: 300%;
+      }
 }

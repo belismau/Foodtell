@@ -1,30 +1,54 @@
-<!DOCTYPE html>
-<html lang="sv">
-  <head>
-    <meta charset="utf-8">
-    <title> Home </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/index.css') }}">
-  </head>
-  <body>
-
-    <div id="questiondiv">
-      <p id="question">Q</p>
-      <p id="info"> Foodtell är en webbapplikation för annonsering av matvaruprodukter som inte lyckats säljas under sin ordinarie försäljningsperiod. Konceptet går ut på att producenter, det vill säga restauranger eller caféer, lägger upp annonser för sina varor till reducerade priser som ett sista alternativ till att få varorna sålda. Konsumenter med avsikt att hitta billiga produkter kan sedan gå in på sidan och bläddra bland alla tillgängliga annonser. Idéen grundar sig alltså i att processen är lönsam för båda parter i samband med att den värnar om både vår miljö och samhällsekonomi. </p>
-    </div>
-
-    <div id="container">
-
-      <div id="second">
-        <p> FOOD </p>
-        <img id="logo" src="https://i.imgur.com/DhhwB2C.png">
-        <p> TELL </p>
-      </div>
-
-      <a href="login"> LOGGA IN </a>
-      <a href="register"> REGISTRERA DIG </a>
-
-    </div>
-
-  </body>
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../static/CSS/index.css">
+        <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Fugaz+One" rel="stylesheet">
+        <title>Foodtell!</title>
+    </head>
+    <body>
+        <header>
+                <div class="navbar">
+                        <div class="temp"></div>
+                        <a href="/">Foodtell</a>
+                        <div class="dropdown">
+                          <button class="dropbtn">Dropdown 
+                            <i class="fa fa-caret-down"></i>
+                          </button>
+                          <div class="dropdown-content">
+                                <a class="Navlink" href="articles">Erbjudanden</a> 
+                                <a class="Navlink" href="login">Logga in</a>
+                                <a class="Navlink" href="register">Registrera</a> 
+                          </div>
+                        </div> 
+                        <div class="temp"></div>
+                      </div>
+                      <div class="navbar2">
+                            <a class="Navlink" href="">Foodtell</a>
+                            <a class="Navlink" href="articles">Erbjudanden</a> 
+                            <a class="Navlink" href="login">Logga in</a> 
+                            <a class="Navlink" href="register">Registrera</a>
+                          </div>
+        </header>
+        <main>
+            <div class="mainpart">
+                    <img id="logo" src="../static/images/logafoodtell.PNG" alt="LOGO">
+                    <h1 id="h1h">Var med och rädda jorden!</h1>
+                    <h1>Our purpose</h1>
+                    <p id="beskrivning">"The purpose of this project is to reduce food waste in the restaurant industry by improving communication between producers and consumers via our platform. Through this project, the hopes that from an environmental and socio-economic perspective can have a positive impact. The aim is also for the developers to be able to participate in building a platform from the ground up in order to obtain new knowledge and techniques. The developers should be able to work in groups and together come up with solutions that are for the project ahead."</p>
+                
+            </div>
+            
+        </main>
+        <footer>
+                <div id="footer">
+                  <p id="footert">
+                    <i>copyrighted</i> 2019 FoodTell 
+                  </p>
+                </div>
+              </footer>
+        <script src="myscript.js"></script>
+    </body>
 </html>
