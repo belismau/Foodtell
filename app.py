@@ -431,7 +431,7 @@ def myorders():
 
                 listWithOrder = buyArticle.orders(session['emailKonsument'], session['usernameKonsument'])
                 
-                return render_template("myorders.html", listWithOrder=listWithOrder)
+                return render_template("myorders.html", listWithOrder=listWithOrder, empty=len(listWithOrder))
 
     else:
         return redirect(url_for('login'))
