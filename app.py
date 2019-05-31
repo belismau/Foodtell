@@ -222,6 +222,10 @@ def addarticle():
 
 @app.route("/articles", methods=['POST', 'GET'])
 def articles():
+    category = 'Alla'
+    if request.method == "POST":
+        category = request.form.get('category')
+        print(category)
 
     if 'usernameKonsument' in session or 'usernameProducent' in session:
         article.removeArticleTime()
@@ -244,7 +248,7 @@ def articles():
                 return redirect(url_for('notVerified'))
         
         else:
-            listArticle = article.presentArticleKonsument()
+            listArticle = article.presentArticleKonsument(category)
             return render_template("artiklar.html", listArticle=listArticle, checkIfEmpty=len(listArticle), username=session['usernameKonsument'])
                    
     else:

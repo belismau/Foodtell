@@ -53,7 +53,16 @@
     {% else %}
 
       <div id="space"></div>
-
+      Filtrera efter kategori: 
+      <form action="/articles" method="POST">
+        <input type="radio" name="category" value="Alla">Alla
+        <input type="radio" name="category" value="Amerikanskt">Amerikanskt
+        <input type="radio" name="category" value="Italienskt">Italienskt
+        <input type="radio" name="category" value="Orientaliskt">Orientaliskt
+        <input type="radio" name="category" value="Asiatiskt">Asiatiskt
+        <input type="radio" name="category" value="Kafé">Kafé
+        <input type="submit" name="submit">
+      </form>
       <div id="mobileCenter">
 
         {% for rad in listArticle %}
