@@ -12,23 +12,23 @@
     <nav>
       <div id="second">
         <p> FOOD </p>
-        <img id="logo" src="https://i.imgur.com/DhhwB2C.png">
+        <img id="logo" src="../static/images/logafoodtell.PNG">
         <p> TELL </p>
       </div>
 
       <p id="username"> {{ username }} </p>
 
-      <a href="myorders"> SE DINA ORDERS </a>
+      <a href="myorders"> SE DINA ORDRAR </a>
       <a href="articles"> VISA ALLA ARTIKLAR </a>
 
       {% if producent != True %}
-      <a href="producent"> VISA PRODUCENTER </a>
+      <a href="producent"> VISA RESTAURANGER/CAFÉER </a>
       {% endif %}
 
       {% if producent == True %}
         <a href="addarticle"> LÄGG TILL EN ARTIKEL </a>
         <a href="myarticles"> DINA ARTIKLAR </a>
-        <a href="orders"> ALLA ORDERS </a>
+        <a href="orders"> ALLA ORDRAR </a>
       {% endif %}
 
       <a href="logout"> LOGGA UT </a>

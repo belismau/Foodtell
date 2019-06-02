@@ -14,7 +14,7 @@
         <p> O </p>
         <p> O </p>
         <p> D </p>
-        <img id="logo" src="https://i.imgur.com/DhhwB2C.png">
+        <img id="logo" src="../static/images/logafoodtell.PNG">
         <p> T </p>
         <p> E </p>
         <p> L </p>
@@ -23,27 +23,28 @@
 
       <div id="second">
         <p> FOOD </p>
-        <img id="logo" src="https://i.imgur.com/DhhwB2C.png">
+        <img id="logo" src="../static/images/logafoodtell.PNG">
         <p> TELL </p>
       </div>
 
       <a href="home"> HEM </a>
-      <a href="myorders"> ORDERS </a>
+      <a href="myorders"> ORDRAR </a>
       <a href="articles"> ARTIKLAR </a>
-      <a href="producent"> PRODUCENTER </a>
+      <a href="producent"> RESTAURANGER/CAFÉER </a>
 
       {% if producent == True %}
         <a href="addarticle"> LÄGG TILL EN ARTIKEL </a>
         <a href="myarticles"> DINA ARTIKLAR </a>
-        <a href="orders"> ALLA ORDERS </a>
+        <a href="orders"> ALLA ORDRAR </a>
       {% endif %}
 
       <a href="logout"> LOGGA UT </a>
     </nav>
 
     {% if empty == 0 %}
-
-      <h2> Du har inte beställt något </h2>
+      <div id="center1">
+          <h2> Opps...Du har inte beställt något än :(</h2>
+      </div>
 
     {% else %}
 

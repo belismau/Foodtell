@@ -222,6 +222,10 @@ def addarticle():
 
 @app.route("/articles", methods=['POST', 'GET'])
 def articles():
+    category = 'Alla'
+    if request.method == "POST":
+        category = request.form.get('category')
+        print(category)
 
     if 'usernameKonsument' in session or 'usernameProducent' in session:
         article.removeArticleTime()
@@ -244,7 +248,7 @@ def articles():
                 return redirect(url_for('notVerified'))
         
         else:
-            listArticle = article.presentArticleKonsument()
+            listArticle = article.presentArticleKonsument(category)
             return render_template("artiklar.html", listArticle=listArticle, checkIfEmpty=len(listArticle), username=session['usernameKonsument'])
                    
     else:
@@ -271,36 +275,55 @@ def producent():
     else:
         return redirect(url_for('login'))
 
-@app.route("/producent/<telnr>")
+@app.route("/producent/<telnr>", methods=['POST', 'GET'])
 def producentname(telnr):
+    db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
+    connect = db.cursor()
+    if request.method == "POST":
+        telnr = request.form.get('telnr')
+        rating = request.form.get('rating')
+        email = session['emailKonsument']
 
-    if 'usernameProducent' in session:
+        connect.execute("INSERT INTO rating(email, telnr, rating) VALUES(%s,%s,%s);",(email,telnr,rating))
+        db.commit()
+        return redirect(url_for("home"))
+    elif request.method == "GET":  
+        print(telnr)
+        if 'usernameProducent' in session:
 
-        if other.verifyProducent(session['telnrProducent']) != False:
+            if other.verifyProducent(session['telnrProducent']) != False:
+
+                listWithProducent = other.getProducentInfo(telnr)
+                newnumber = "'"+telnr+"'"
+                connect.execute("SELECT sum(rating) AS total FROM rating WHERE telnr='%s'" % (telnr)) 
+                total = connect.fetchall()
+                db.commit()
+
+                if len(listWithProducent) != 0:
+                    return render_template("producent.html", rating=total, listWithProducent=listWithProducent)
+                else:
+                    return redirect(url_for('home'))
+            
+            else:
+
+                return redirect(url_for('notVerified'))
+        
+        elif 'usernameKonsument' in session:
 
             listWithProducent = other.getProducentInfo(telnr)
-
+            newnumber = "'"+telnr+"'"
+            connect.execute("SELECT sum(rating.rating) AS total FROM rating WHERE telnr='%s'" % (telnr)) 
+            total = connect.fetchone()
+            rating = total[0]
+            db.commit()
             if len(listWithProducent) != 0:
-                return render_template("producent.html", listWithProducent=listWithProducent)
+                return render_template("producent.html", rating=rating, listWithProducent=listWithProducent)
             else:
                 return redirect(url_for('home'))
-        
+
         else:
-
-            return redirect(url_for('notVerified'))
-    
-    elif 'usernameKonsument' in session:
-
-        listWithProducent = other.getProducentInfo(telnr)
-
-        if len(listWithProducent) != 0:
-            return render_template("producent.html", listWithProducent=listWithProducent)
-        else:
-            return redirect(url_for('home'))
-
-    else:
-        return redirect(url_for('login'))
-
+            return redirect(url_for('login'))
+            
 @app.errorhandler(404)
 def notFound(e):
     if 'usernameKonsument' in session or 'usernameProducent' in session or 'usernameFoodtell':
@@ -412,7 +435,7 @@ def myorders():
 
                 listWithOrder = buyArticle.orders(session['emailKonsument'], session['usernameKonsument'])
                 
-                return render_template("myorders.html", listWithOrder=listWithOrder)
+                return render_template("myorders.html", listWithOrder=listWithOrder, empty=len(listWithOrder))
 
     else:
         return redirect(url_for('login'))

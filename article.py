@@ -108,13 +108,16 @@ def presentArticleProducent(telnrProducent):
 
     return listArticle
 
-def presentArticleKonsument():
-
+def presentArticleKonsument(category):
+    category_received = category
     db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
     connect = db.cursor()
 
     listArticle = []
-    connect.execute("SELECT id, artikel.namn, beskrivning, datum, tid, antal, ordpris, nuvpris, producent.namn, artikel.telnr, expired FROM artikel join producent on artikel.telnr=producent.telnr")
+    if category_received == "Alla":
+        connect.execute("SELECT id, artikel.namn, beskrivning, datum, tid, antal, ordpris, nuvpris, producent.namn, artikel.telnr, expired FROM artikel join producent on artikel.telnr=producent.telnr")
+    else:
+        connect.execute("SELECT id, artikel.namn, beskrivning, datum, tid, antal, ordpris, nuvpris, producent.namn, artikel.telnr, expired FROM artikel join producent on artikel.telnr=producent.telnr WHERE category = '%s'" % (category_received))
     
     for i in connect:
         if i[10] == False:
@@ -132,7 +135,7 @@ def addArticle(telnr):
     antal = request.form['antal']
     ordpris = request.form['ordinariepris']
     nuvpris = request.form['nuvarandepris']
-
+    kategori = request.form['category']
     # Kopplar upp mig till databasen
 
     db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
@@ -150,7 +153,7 @@ def addArticle(telnr):
 
     # Lägger till informationen i databasen
 
-    connect.execute("INSERT INTO artikel VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (currentID, telnr, namn, beskrivning, datum, tid, antal, ordpris, nuvpris, False))
+    connect.execute("INSERT INTO artikel VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (currentID, telnr, namn, beskrivning, datum, tid, antal, ordpris, nuvpris, False, kategori))
     db.commit()
 
 def infoAboutArticle(articleID):

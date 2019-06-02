@@ -68,6 +68,9 @@ h3 {
   height: 25px;
 }
 
+#hiddenNumber{
+  display: none;
+}
 @media screen and (max-width: 515px) {
   #beskrivning {
     margin: 0;

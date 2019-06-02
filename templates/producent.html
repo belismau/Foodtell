@@ -19,9 +19,15 @@
           <p class="subtitle"> {{ i[1] }} </p>
           <p class="subtitle"> {{ i[0] }} </p>
           <p class="subtitle last"> {{ i[3] }} </p>
+          <p>Popularity: {{rating}}</p>
+          <form action="/producent/{{ i[0] }}", method="POST">
+            <input id="hiddenNumber" type="text" value="{{i[0]}}" name="telnr" >
+            <input type="radio" name="rating" value="1">Like
+            <input type="radio" name="rating" value="-1">Dislike
+            <input type="submit" name="send" value="Skicka">
+          </form>
         </div>
       </article>
     {% endfor %}
-
   </body>
 </html>

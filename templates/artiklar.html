@@ -17,7 +17,7 @@
         <p> O </p>
         <p> O </p>
         <p> D </p>
-        <img id="logo" src="https://i.imgur.com/DhhwB2C.png">
+        <img id="logo" src="../static/images/logafoodtell.PNG">
         <p> T </p>
         <p> E </p>
         <p> L </p>
@@ -26,19 +26,19 @@
 
       <div id="second">
         <p> FOOD </p>
-        <img id="logo" src="https://i.imgur.com/DhhwB2C.png">
+        <img id="logo" src="../static/images/logafoodtell.PNG">
         <p> TELL </p>
       </div>
 
       <a href="home"> HEM </a>
-      <a href="myorders"> ORDERS </a>
+      <a href="myorders"> ORDRAR </a>
       <a href="articles"> ARTIKLAR </a>
-      <a href="producent"> PRODUCENTER </a>
+      <a href="producent"> RESTAURANGER/CAFÉER </a>
 
       {% if producent == True %}
         <a href="addarticle"> LÄGG TILL EN ARTIKEL </a>
         <a href="myarticles"> DINA ARTIKLAR </a>
-        <a href="orders"> ALLA ORDERS </a>
+        <a href="orders"> ALLA ORDRAR </a>
       {% endif %}
 
       <a href="logout"> LOGGA UT </a>
@@ -53,7 +53,16 @@
     {% else %}
 
       <div id="space"></div>
-
+      Filtrera efter kategori: 
+      <form action="/articles" method="POST">
+        <input type="radio" name="category" value="Alla">Alla
+        <input type="radio" name="category" value="Amerikanskt">Amerikanskt
+        <input type="radio" name="category" value="Italienskt">Italienskt
+        <input type="radio" name="category" value="Orientaliskt">Orientaliskt
+        <input type="radio" name="category" value="Asiatiskt">Asiatiskt
+        <input type="radio" name="category" value="Kafé">Kafé
+        <input type="submit" name="submit">
+      </form>
       <div id="mobileCenter">
 
         {% for rad in listArticle %}
