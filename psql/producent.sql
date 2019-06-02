@@ -4,7 +4,8 @@ CREATE TABLE producent (
     telnr VARCHAR PRIMARY KEY,
     email VARCHAR NOT NULL,
     namn VARCHAR NOT NULL,
-    password VARCHAR NOT NULL
+    password VARCHAR NOT NULL,
+    verified BOOLEAN
 );
 
 DROP TABLE IF EXISTS producentAdress;
