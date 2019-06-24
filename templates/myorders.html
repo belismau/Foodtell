@@ -49,7 +49,8 @@
     {% else %}
 
       <div id="space"></div>
-
+      <p>Du har lagt: <strong>{{ listWithOrder|length }}</strong> ordrar för en summa på: <strong>{{ listWithOrder|sum(attribute='4') }}</strong> kr</p>
+      <p>Du har sparat: <strong>{{ summa - listWithOrder|sum(attribute='4')}}</strong> kr genom att använda Foodtell!</p>
       <div id="mobileCenter">
 
         {% for i in listWithOrder %}
@@ -74,6 +75,7 @@
               <p id="beskrivning"> Namn på artikel: {{ i[11] }} </p>
               <p id="beskrivning"> Datum för köp: {{ i[6] }} </p>
               <p id="beskrivning"> Tid för köp: {{ i[7] }} </p>
+              <p id="ordinariepris"> Ordinaries pris: <span> {{ i[5] * i[13] }} </span> </p>
               <p id="pris"> Att betala: <span> {{ i[4] }}kr </span> </p>
 
               {% if producent == True %}

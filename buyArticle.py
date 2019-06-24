@@ -68,12 +68,11 @@ def orders(byer, producent):
     db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
     connect = db.cursor()
 
-    connect.execute("SELECT ordernr, artikelid, producent, byer, summa, kvitto.antal, kvitto.datum, kvitto.tid, producent.namn, email, artikel.namn, adress FROM kvitto JOIN producent ON kvitto.producent = producent.telnr JOIN artikel ON kvitto.artikelid=artikel.id JOIN producentadress ON kvitto.producent = producentadress.telnr WHERE byer = %s ORDER BY ordernr DESC", (byer,))
+    connect.execute("SELECT ordernr, artikelid, producent, byer, summa, kvitto.antal, kvitto.datum, kvitto.tid, producent.namn, email, artikel.namn, adress, artikel.ordpris FROM kvitto JOIN producent ON kvitto.producent = producent.telnr JOIN artikel ON kvitto.artikelid=artikel.id JOIN producentadress ON kvitto.producent = producentadress.telnr WHERE byer = %s ORDER BY ordernr DESC", (byer,))
 
     listWithOrder = []
     for i in connect:
-        listWithOrder.append([i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9], producent, i[10], i[11]])
-
+        listWithOrder.append([i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9], producent, i[10], i[11], i[12]])
     return listWithOrder
 
 def removeOrder():
