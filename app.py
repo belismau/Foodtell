@@ -224,8 +224,25 @@ def addarticle():
 def articles():
     category = 'Alla'
     if request.method == "POST":
-        category = request.form.get('category')
-        print(category)
+        post_type = request.form.get('post_type')
+
+        if post_type == '0':
+            category = request.form.get('category')
+            print(category)
+        elif post_type == '1':
+            db = psycopg2.connect(dbname="aj1200", user="aj1200", password="gam0gfxz", host="pgserver.mah.se")
+            connect = db.cursor()
+            rating = request.form.get('rating')
+            article_rated = request.form.get('article_rated')
+            if rating == '1':
+                connect.execute("UPDATE artikel SET rating = rating + 1 WHERE id=%s;" % (article_rated))
+                db.commit()
+            elif rating == '-1':
+                connect.execute("UPDATE artikel SET rating = rating - 1 WHERE id=%s;" % (article_rated))
+                db.commit()
+            
+
+            
 
     if 'usernameKonsument' in session or 'usernameProducent' in session:
         article.removeArticleTime()
@@ -393,7 +410,7 @@ def myArticlesExpired():
 
 @app.route("/myorders", methods=['POST', 'GET']) ######################
 def myorders():
-
+    
     if 'usernameProducent' in session or 'usernameKonsument' in session:
 
         if request.method == 'POST':
@@ -434,8 +451,10 @@ def myorders():
             else:
 
                 listWithOrder = buyArticle.orders(session['emailKonsument'], session['usernameKonsument'])
-                
-                return render_template("myorders.html", listWithOrder=listWithOrder, empty=len(listWithOrder))
+                summa = 0
+                for i in listWithOrder:
+                    summa += i[5] * i[13]
+                return render_template("myorders.html", summa=summa, listWithOrder=listWithOrder, empty=len(listWithOrder))
 
     else:
         return redirect(url_for('login'))

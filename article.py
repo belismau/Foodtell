@@ -115,13 +115,13 @@ def presentArticleKonsument(category):
 
     listArticle = []
     if category_received == "Alla":
-        connect.execute("SELECT id, artikel.namn, beskrivning, datum, tid, antal, ordpris, nuvpris, producent.namn, artikel.telnr, expired FROM artikel join producent on artikel.telnr=producent.telnr")
+        connect.execute("SELECT id, artikel.namn, beskrivning, datum, tid, antal, ordpris, nuvpris, producent.namn, artikel.telnr, expired, rating FROM artikel join producent on artikel.telnr=producent.telnr ORDER BY artikel.id ASC;")
     else:
-        connect.execute("SELECT id, artikel.namn, beskrivning, datum, tid, antal, ordpris, nuvpris, producent.namn, artikel.telnr, expired FROM artikel join producent on artikel.telnr=producent.telnr WHERE category = '%s'" % (category_received))
+        connect.execute("SELECT id, artikel.namn, beskrivning, datum, tid, antal, ordpris, nuvpris, producent.namn, artikel.telnr, expired, rating FROM artikel join producent on artikel.telnr=producent.telnr WHERE category = '%s' ORDER BY artikel.id ASC;" % (category_received))
     
     for i in connect:
         if i[10] == False:
-            listArticle.append([i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], True, i[10]])
+            listArticle.append([i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], True, i[10], i[11]])
     db.commit()
 
     return listArticle

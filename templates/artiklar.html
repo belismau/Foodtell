@@ -55,6 +55,7 @@
       <div id="space"></div>
       Filtrera efter kategori: 
       <form action="/articles" method="POST">
+        <input type="hidden" name="post_type" value="0">
         <input type="radio" name="category" value="Alla">Alla
         <input type="radio" name="category" value="Amerikanskt">Amerikanskt
         <input type="radio" name="category" value="Italienskt">Italienskt
@@ -109,7 +110,14 @@
                 <p class="date"> {{ rad[3] }} </p>
                 <p class="time"> &nbsp;&nbsp;{{ rad[4] }} </p>
               </div>
-
+              <p>Popularity: {{rad[11]}}</p>
+              <form action="/articles", method="POST">
+                <input type="hidden" name="post_type" value="1">
+                <input type="hidden" name="article_rated" value="{{rad[0]}}">
+                <input type="radio" name="rating" value="1">Like
+                <input type="radio" name="rating" value="-1">Dislike
+                <input type="submit" name="send" value="Skicka">
+              </form>
             </div>
 
           </article>
